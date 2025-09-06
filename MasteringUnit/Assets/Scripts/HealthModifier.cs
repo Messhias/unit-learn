@@ -27,7 +27,7 @@ public class HealthModifier : MonoBehaviour
         
     }
 
-    private void OnCollisionEnter(Collision other)
+    private void OnTriggerEnter(Collider other)
     {
         GameObject hitObject = other.gameObject;
         
