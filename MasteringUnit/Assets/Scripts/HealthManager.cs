@@ -21,6 +21,7 @@ public class HealthManager : MonoBehaviour
     private GameObject _current;
     private MeshRenderer _meshRenderer;
     private PlayerController _playerController;
+    private static GameSessionManager _gameSessionManagerInstance;
     [CanBeNull] private Camera _camera;
     [CanBeNull] private CameraShake _cameraShake;
 
@@ -87,6 +88,7 @@ public class HealthManager : MonoBehaviour
         _playerController = _current.GetComponent<PlayerController>();
         _camera = Camera.main;
         _cameraShake = _camera?.GetComponent<CameraShake>();
+        _gameSessionManagerInstance = GameSessionManager.Instance;
     }
 
     // Update is called once per frame
@@ -96,17 +98,29 @@ public class HealthManager : MonoBehaviour
 
         UpdateInvincibilityFrames();
 
+        ShakeCamera();
+
+        if (IsDead())
+        {
+            if (_playerController)
+            {
+                _gameSessionManagerInstance.OnPlayerDeath(gameObject);
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+        }
+    }
+
+    private void ShakeCamera()
+    {
         if (_playerController)
         {
             if (_cameraShake)
             {
                 _cameraShake.enabled = _invincibilityFramesCur > 0;
             }
-        }
-
-        if (IsDead())
-        {
-            Destroy(gameObject);
         }
     }
 
