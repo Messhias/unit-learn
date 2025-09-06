@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using UnityEngine;
 
 public class HealthManager : MonoBehaviour
@@ -16,6 +17,12 @@ public class HealthManager : MonoBehaviour
 
     [SerializeField, Tooltip("Is this object dead.")]
     private bool _isDead = false;
+
+    private GameObject _current;
+    private MeshRenderer _meshRenderer;
+    private PlayerController _playerController;
+    [CanBeNull] private Camera _camera;
+    [CanBeNull] private CameraShake _cameraShake;
 
     public float AdjustCurrentHealth(float health)
     {
@@ -75,25 +82,64 @@ public class HealthManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        _current =  gameObject;
+        _meshRenderer = _current.GetComponent<MeshRenderer>();
+        _playerController = _current.GetComponent<PlayerController>();
+        _camera = Camera.main;
+        _cameraShake = _camera?.GetComponent<CameraShake>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (_invincibilityFramesCur > 0)
-        {
-            _invincibilityFramesCur -= Time.deltaTime;
+        TakenDamageVisualFeedback();
 
-            if (_invincibilityFramesCur < 0)
+        UpdateInvincibilityFrames();
+
+        if (_playerController)
+        {
+            if (_cameraShake)
             {
-                _invincibilityFramesCur = 0;
+                _cameraShake.enabled = _invincibilityFramesCur > 0;
             }
         }
 
         if (IsDead())
         {
             Destroy(gameObject);
+        }
+    }
+
+    private void TakenDamageVisualFeedback()
+    {
+        // handle visibility
+        if (_meshRenderer)
+        {
+            if (_invincibilityFramesCur > 0)
+            {
+                // toggle rendering on/off
+                _meshRenderer.enabled = !_meshRenderer.enabled;
+            }
+            else
+            {
+                _meshRenderer.enabled = true;
+            }
+        }
+        else
+        {
+            _meshRenderer.enabled = true;
+        }
+    }
+
+    private void UpdateInvincibilityFrames()
+    {
+        if (!(_invincibilityFramesCur > 0)) return;
+        
+        _invincibilityFramesCur -= Time.deltaTime;
+
+        if (_invincibilityFramesCur < 0)
+        {
+            _invincibilityFramesCur = 0;
         }
     }
 }
