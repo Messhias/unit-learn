@@ -29,10 +29,10 @@ public class HealthModifier : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        GameObject hitObject = other.gameObject;
+        var hitObject = other.gameObject;
         
         // get HealthManager of the object we've hit.
-        HealthManager healthManager = hitObject.GetComponent<HealthManager>();
+        var healthManager = hitObject.GetComponent<HealthManager>();
 
         if (healthManager && IsValidTarget(hitObject))
         {

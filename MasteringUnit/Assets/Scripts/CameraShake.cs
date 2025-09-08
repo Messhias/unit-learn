@@ -18,7 +18,7 @@ public class CameraShake : MonoBehaviour
     void Update()
     {
         // if enabled, give camera a little shake
-        Vector3 newPosition = new Vector3();
+        var newPosition = new Vector3();
         newPosition.x = _startPosition.x + Random.Range(-_shake, +_shake);
         newPosition.y = _startPosition.y + Random.Range(-_shake, +_shake);
         newPosition.z = _startPosition.z + Random.Range(-_shake, +_shake);

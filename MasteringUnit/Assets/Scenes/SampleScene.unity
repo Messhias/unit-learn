@@ -677,6 +677,7 @@ GameObject:
   - component: {fileID: 281946808}
   - component: {fileID: 281946810}
   - component: {fileID: 281946809}
+  - component: {fileID: 281946811}
   m_Layer: 5
   m_Name: CurrentLivesContainer
   m_TagString: Untagged
@@ -743,6 +744,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 281946807}
   m_CullTransparentMesh: 1
+--- !u!114 &281946811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 281946807}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b77e7adc97b094616b7333b0d97f4198, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _healthValueText: {fileID: 81384434}
+  _coinValueText: {fileID: 232726778}
+  _livesRemainingText: {fileID: 2030226786}
+  _healthManager: {fileID: 2093687089}
 --- !u!1 &282796340
 GameObject:
   m_ObjectHideFlags: 0
@@ -754,6 +771,7 @@ GameObject:
   - component: {fileID: 282796341}
   - component: {fileID: 282796343}
   - component: {fileID: 282796342}
+  - component: {fileID: 282796344}
   m_Layer: 5
   m_Name: CurrentHealthContainer
   m_TagString: Untagged
@@ -820,6 +838,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 282796340}
   m_CullTransparentMesh: 1
+--- !u!114 &282796344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 282796340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b77e7adc97b094616b7333b0d97f4198, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _healthValueText: {fileID: 81384434}
+  _coinValueText: {fileID: 232726778}
+  _livesRemainingText: {fileID: 2030226786}
+  _healthManager: {fileID: 2093687089}
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -1449,6 +1483,7 @@ GameObject:
   - component: {fileID: 1304057513}
   - component: {fileID: 1304057515}
   - component: {fileID: 1304057514}
+  - component: {fileID: 1304057516}
   m_Layer: 5
   m_Name: CurrentCoinsContainer
   m_TagString: Untagged
@@ -1515,6 +1550,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1304057512}
   m_CullTransparentMesh: 1
+--- !u!114 &1304057516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1304057512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b77e7adc97b094616b7333b0d97f4198, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _healthValueText: {fileID: 81384434}
+  _coinValueText: {fileID: 232726778}
+  _livesRemainingText: {fileID: 2030226786}
+  _healthManager: {fileID: 2093687089}
 --- !u!1 &1437350788
 GameObject:
   m_ObjectHideFlags: 0

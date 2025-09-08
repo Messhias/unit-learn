@@ -37,7 +37,7 @@ public class GameSessionManager : MonoBehaviour
             // let's use a life to respawn the ployer.
             _playerLives--;
             
-            HealthManager playerHealth = player.GetComponent<HealthManager>();
+            var playerHealth = player.GetComponent<HealthManager>();
 
             if (playerHealth)
             {
@@ -51,5 +51,15 @@ public class GameSessionManager : MonoBehaviour
             
             Debug.Log($"Player lives remaining: {_playerLives}.");
         }
+    }
+
+    public static int GetCoins()
+    {
+        return PickUpItem.SObjectsCollected;
+    }
+
+    public int GetLives()
+    {
+        return _playerLives;
     }
 }

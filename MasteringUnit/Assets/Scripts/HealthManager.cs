@@ -156,4 +156,14 @@ public class HealthManager : MonoBehaviour
             _invincibilityFramesCur = 0;
         }
     }
+
+    public float GetCurrentHealth()
+    {
+        return _currentHealth;
+    }
+
+    public float GetMaxHealth()
+    {
+        return _healthMax;
+    }
 }
