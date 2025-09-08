@@ -6,7 +6,7 @@ public class PickUpItem : MonoBehaviour
     [FormerlySerializedAs("_rotationSpeed")] [SerializeField, Tooltip("The speed that this object rotates at.")]
     private float rotationSpeed = 5;
 
-    private static int _sObjectsCollected = 0;
+    public static int SObjectsCollected = 0;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -18,7 +18,7 @@ public class PickUpItem : MonoBehaviour
     void Update()
     {
         // grab the current rotation, increment it, and re-apply it.
-        Vector3 newRotation = transform.eulerAngles;
+        var newRotation = transform.eulerAngles;
         
         newRotation.y += (rotationSpeed * Time.deltaTime);
         
@@ -28,8 +28,8 @@ public class PickUpItem : MonoBehaviour
     public void OnPickedUp(GameObject whoPickedUp)
     {
         // show the collection count in the console window
-        _sObjectsCollected++;
-        Debug.Log($"{_sObjectsCollected} items picked up");
+        SObjectsCollected++;
+        Debug.Log($"{SObjectsCollected} items picked up");
         
         Destroy(gameObject);
     }

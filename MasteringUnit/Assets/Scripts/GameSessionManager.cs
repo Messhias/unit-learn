@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameSessionManager : MonoBehaviour
 {
@@ -7,6 +8,12 @@ public class GameSessionManager : MonoBehaviour
 
     [SerializeField, Tooltip("Where the player will respawn.")]
     private Transform _respawnLocation;
+
+    [SerializeField, Tooltip("Object to display when the game is over.")]
+    private GameObject _gameOverObj;
+    
+    [SerializeField, Tooltip("Title Menu countdown after the game is over.")]
+    private float _returnToMenuCountdown;
     
     public static GameSessionManager Instance { get; private set; }
     
@@ -21,7 +28,19 @@ public class GameSessionManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        CheckGameOver();
+    }
+
+    private void CheckGameOver()
+    {
+        if (!(_returnToMenuCountdown > 0)) return;
         
+        
+        _returnToMenuCountdown -= Time.deltaTime;
+        if (_returnToMenuCountdown < 0 && _playerLives <= 0)
+        {
+            SceneManager.LoadScene("Scenes/TitleMenu");
+        }
     }
 
     public void OnPlayerDeath(GameObject player)
@@ -31,13 +50,16 @@ public class GameSessionManager : MonoBehaviour
             // player is out of lives
             Destroy(player.gameObject);
             Debug.Log("Game Over.");
+            
+            _gameOverObj.SetActive(true);
+            _returnToMenuCountdown = 4;
         }
         else
         {
             // let's use a life to respawn the ployer.
             _playerLives--;
             
-            HealthManager playerHealth = player.GetComponent<HealthManager>();
+            var playerHealth = player.GetComponent<HealthManager>();
 
             if (playerHealth)
             {
@@ -51,5 +73,15 @@ public class GameSessionManager : MonoBehaviour
             
             Debug.Log($"Player lives remaining: {_playerLives}.");
         }
+    }
+
+    public static int GetCoins()
+    {
+        return PickUpItem.SObjectsCollected;
+    }
+
+    public int GetLives()
+    {
+        return _playerLives;
     }
 }

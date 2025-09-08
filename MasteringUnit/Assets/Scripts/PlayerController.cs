@@ -43,7 +43,7 @@ public class PlayerController : MonoBehaviour
     {
         // get the current speed from the rigid body physics component.
         // grabbing this ensures we retain the gravity speed.
-        Vector3 currentSpeed = _rigidbody.linearVelocity;
+        var currentSpeed = _rigidbody.linearVelocity;
 
         currentSpeed = PlayerMove(ref currentSpeed);
 
@@ -62,13 +62,13 @@ public class PlayerController : MonoBehaviour
         // fire the weapon?
         if (Input.GetKeyDown(KeyCode.Return))
         {
-            GameObject newBullet = Instantiate(
+            var newBullet = Instantiate(
                 _bulletToSpawn,
                 transform.position,
                 Quaternion.identity
             );
 
-            Bullet bullet = newBullet.GetComponent<Bullet>();
+            var bullet = newBullet.GetComponent<Bullet>();
             if (bullet)
             {
                 bullet.SetDirection(
@@ -151,7 +151,7 @@ public class PlayerController : MonoBehaviour
         if (!other.gameObject.GetComponent<PickUpItem>()) return;
         // we collided with a valid pickup item
         // so let that item know it's been 'Picked up' by this game object
-        PickUpItem item = other.gameObject.GetComponent<PickUpItem>();
+        var item = other.gameObject.GetComponent<PickUpItem>();
         item.OnPickedUp(gameObject);
     }
 }
