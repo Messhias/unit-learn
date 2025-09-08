@@ -56,7 +56,7 @@ public class GameSessionManager : MonoBehaviour
         }
         else
         {
-            // let's use a life to respawn the ployer.
+            // let's use a life to respawn the player.
             _playerLives--;
             
             var playerHealth = player.GetComponent<HealthManager>();
