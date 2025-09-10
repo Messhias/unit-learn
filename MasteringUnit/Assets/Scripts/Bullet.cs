@@ -7,7 +7,7 @@ public class Bullet : MonoBehaviour
     private float _speed = 4f;
 
     [SerializeField] [Tooltip("Normalized direction of this bullet.")]
-    private Vector3 _direction = Vector3.zero;
+    private Vector3 _direction = new (1,0,0);
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()

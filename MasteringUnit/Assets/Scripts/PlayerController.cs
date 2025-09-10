@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
     private GameObject _bulletToSpawn;
 
     [SerializeField] [Tooltip("The direction of that the Player is facing.")]
-    private Vector3 _currentFacing = Vector3.zero;
+    private Vector3 _currentFacing = new(1, 0, 0);
 
     // acceleration applied when directional input is received.
     [SerializeField] [Tooltip("How much acceleration is applied to this object when direction input is received.")]
@@ -43,15 +43,10 @@ public class PlayerController : MonoBehaviour
         // get the current speed from the rigid body physics component.
         // grabbing this ensures we retain the gravity speed.
         var currentSpeed = _rigidbody.linearVelocity;
-        
+
         currentSpeed = PlayerMove(ref currentSpeed);
 
         currentSpeed = PlayerJump(ref currentSpeed);
-        
-        // store the current facing
-        // do this after the speed is adjusted by arrow keys.
-        // be before friction is applied.
-        if (currentSpeed.x != 0 && currentSpeed.z != 0) _currentFacing = currentSpeed.normalized;
 
         AdjustPlayerFriction(ref currentSpeed);
 
@@ -121,15 +116,36 @@ public class PlayerController : MonoBehaviour
 
     private Vector3 PlayerMove(ref Vector3 currentSpeed)
     {
-        // check to see if any of the keyboard arrows are pressed.
-        // if so, adjust the speed of the player.
-        if (Input.GetKey(KeyCode.RightArrow)) currentSpeed.x += movementAcceleration * Time.deltaTime;
+        // Check to see if any of the keyboard arrows are being pressed
+        // if so, adjust the speed of the player
+        // also store the facing based on the keys being pressed
+        if (Input.GetKey(KeyCode.RightArrow))
+        {
+            currentSpeed.x += movementAcceleration * Time.deltaTime;
+            _currentFacing.x = 1;
+            _currentFacing.z = 0;
+        }
 
-        if (Input.GetKey(KeyCode.LeftArrow)) currentSpeed.x -= movementAcceleration * Time.deltaTime;
+        if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            currentSpeed.x -= movementAcceleration * Time.deltaTime;
+            _currentFacing.x = -1;
+            _currentFacing.z = 0;
+        }
 
-        if (Input.GetKey(KeyCode.UpArrow)) currentSpeed.z += movementAcceleration * Time.deltaTime;
+        if (Input.GetKey(KeyCode.UpArrow))
+        {
+            currentSpeed.z += movementAcceleration * Time.deltaTime;
+            _currentFacing.x = 0;
+            _currentFacing.z = 1;
+        }
 
-        if (Input.GetKey(KeyCode.DownArrow)) currentSpeed.z -= movementAcceleration * Time.deltaTime;
+        if (Input.GetKey(KeyCode.DownArrow))
+        {
+            currentSpeed.z -= movementAcceleration * Time.deltaTime;
+            _currentFacing.x = 0;
+            _currentFacing.z = -1;
+        }
 
         return currentSpeed;
     }
