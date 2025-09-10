@@ -58,7 +58,10 @@ public class Bullet : MonoBehaviour
         {
             if (target.name.Contains("EnemyObj_Spikes"))
             {
+                VFXHandler vfxHandler = target.GetComponent<VFXHandler>();
+                vfxHandler?.SpawnExplosion();
                 Destroy(target);
+                
             }
             // Doesn't matter what bullet hit, if bullet hit something, needs to be 
             // destroyed.
