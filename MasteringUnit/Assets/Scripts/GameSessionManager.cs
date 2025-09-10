@@ -3,22 +3,21 @@ using UnityEngine.SceneManagement;
 
 public class GameSessionManager : MonoBehaviour
 {
-    [Tooltip("Remaining player lives.")]
-    private int _playerLives = 3;
-
-    [SerializeField, Tooltip("Where the player will respawn.")]
+    [SerializeField] [Tooltip("Where the player will respawn.")]
     private Transform _respawnLocation;
 
-    [SerializeField, Tooltip("Object to display when the game is over.")]
+    [SerializeField] [Tooltip("Object to display when the game is over.")]
     private GameObject _gameOverObj;
-    
-    [SerializeField, Tooltip("Title Menu countdown after the game is over.")]
+
+    [SerializeField] [Tooltip("Title Menu countdown after the game is over.")]
     private float _returnToMenuCountdown;
-    
+
+    [Tooltip("Remaining player lives.")] private int _playerLives = 3;
+
     public static GameSessionManager Instance { get; private set; }
-    
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void Start()
     {
         // The GameSessionManager is a Singleton.
         // Store this as the instance of this object.
@@ -26,7 +25,7 @@ public class GameSessionManager : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         CheckGameOver();
     }
@@ -34,13 +33,10 @@ public class GameSessionManager : MonoBehaviour
     private void CheckGameOver()
     {
         if (!(_returnToMenuCountdown > 0)) return;
-        
-        
+
+
         _returnToMenuCountdown -= Time.deltaTime;
-        if (_returnToMenuCountdown < 0 && _playerLives <= 0)
-        {
-            SceneManager.LoadScene("Scenes/TitleMenu");
-        }
+        if (_returnToMenuCountdown < 0 && _playerLives <= 0) SceneManager.LoadScene("Scenes/TitleMenu");
     }
 
     public void OnPlayerDeath(GameObject player)
@@ -50,7 +46,7 @@ public class GameSessionManager : MonoBehaviour
             // player is out of lives
             Destroy(player.gameObject);
             Debug.Log("Game Over.");
-            
+
             _gameOverObj.SetActive(true);
             _returnToMenuCountdown = 4;
         }
@@ -58,19 +54,13 @@ public class GameSessionManager : MonoBehaviour
         {
             // let's use a life to respawn the player.
             _playerLives--;
-            
+
             var playerHealth = player.GetComponent<HealthManager>();
 
-            if (playerHealth)
-            {
-                playerHealth.Reset();
-            }
+            if (playerHealth) playerHealth.Reset();
 
-            if (_respawnLocation)
-            {
-                player.transform.position = _respawnLocation.position;
-            }
-            
+            if (_respawnLocation) player.transform.position = _respawnLocation.position;
+
             Debug.Log($"Player lives remaining: {_playerLives}.");
         }
     }

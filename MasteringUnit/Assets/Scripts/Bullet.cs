@@ -2,20 +2,19 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    [SerializeField, Tooltip("Speed of this bullet.")]
+    [SerializeField] [Tooltip("Speed of this bullet.")]
     private float _speed = 4f;
-    
-    [SerializeField, Tooltip("Normalized direction of this bullet.")]
+
+    [SerializeField] [Tooltip("Normalized direction of this bullet.")]
     private Vector3 _direction = Vector3.zero;
-    
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void Start()
     {
-        
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         var newPosition = transform.position;
         newPosition += _direction * (_speed * Time.deltaTime);
