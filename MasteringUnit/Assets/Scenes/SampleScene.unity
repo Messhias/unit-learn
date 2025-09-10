@@ -1629,6 +1629,8 @@ MonoBehaviour:
   _itemToSpawn: {fileID: 3091321922790856716, guid: 7a3f07c9df6ba4eaebd793da2ad258f6, type: 3}
   _itemCount: 30
   _spawnZone: {fileID: 903199374}
+  _spawnShape: 0
+  _rotationSpeed: {x: 0, y: 0, z: 0}
 --- !u!65 &903199374
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2052,6 +2054,8 @@ MonoBehaviour:
   _itemToSpawn: {fileID: 374592783326192857, guid: 6b8f1845f6f3c4da0ac0ec272712f14d, type: 3}
   _itemCount: 10
   _spawnZone: {fileID: 1437350790}
+  _spawnShape: 0
+  _rotationSpeed: {x: 0, y: 0, z: 0}
 --- !u!65 &1437350790
 BoxCollider:
   m_ObjectHideFlags: 0
