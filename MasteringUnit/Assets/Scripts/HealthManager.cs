@@ -64,6 +64,11 @@ public class HealthManager : MonoBehaviour
             else
                 Destroy(gameObject);
         }
+        
+        // insta-death when we're in an endless pit.
+        float yBounds = -25f;
+        if (transform.position.y < yBounds)
+            _isDead = true;
     }
 
     public float AdjustCurrentHealth(float health)

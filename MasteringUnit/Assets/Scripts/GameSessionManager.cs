@@ -59,7 +59,16 @@ public class GameSessionManager : MonoBehaviour
 
             if (playerHealth) playerHealth.Reset();
 
-            if (_respawnLocation) player.transform.position = _respawnLocation.position;
+            if (_respawnLocation)
+            {
+                Rigidbody rb = player.GetComponent<Rigidbody>();
+                if (rb)
+                {
+                    rb.linearVelocity =  Vector3.zero;
+                }
+                
+                player.transform.position = _respawnLocation.position;
+            }
 
             Debug.Log($"Player lives remaining: {_playerLives}.");
         }
