@@ -73,24 +73,19 @@ public class PlayerController : MonoBehaviour
 
     private void FireWeapon()
     {
-        if (Input.GetKeyDown(KeyCode.Return))
-        {
-            var newBullet = Instantiate(
-                _bulletToSpawn,
-                transform.position,
-                Quaternion.identity
-            );
+        if (!Input.GetKeyDown(KeyCode.Return)) return;
 
-            var bullet = newBullet.GetComponent<Bullet>();
-            if (bullet)
-                bullet.SetDirection(
-                    new Vector3(
-                        _currentFacing.x,
-                        0f,
-                        _currentFacing.z
-                    )
-                );
-        }
+        var dir = new Vector3(_currentFacing.x, 0f, _currentFacing.z).normalized;
+        if (dir.sqrMagnitude <= Mathf.Epsilon) return;
+
+        var newBullet = Instantiate(
+            _bulletToSpawn,
+            transform.position,
+            Quaternion.LookRotation(dir, Vector3.up) // rotação já alinhada
+        );
+
+        var bullet = newBullet.GetComponent<Bullet>();
+        bullet?.SetDirection(dir);
     }
 
     private void AdjustPlayerFriction(ref Vector3 currentSpeed)

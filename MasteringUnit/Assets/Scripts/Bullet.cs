@@ -7,7 +7,7 @@ public class Bullet : MonoBehaviour
     private float _speed = 4f;
 
     [SerializeField] [Tooltip("Normalized direction of this bullet.")]
-    private Vector3 _direction = new (1,0,0);
+    private Vector3 _direction = Vector3.zero;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
@@ -17,15 +17,24 @@ public class Bullet : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        var newPosition = transform.position;
-        newPosition += _direction * (_speed * Time.deltaTime);
-        transform.position = newPosition;
+        if (_direction.sqrMagnitude > 0f)
+        {
+            transform.position += _direction * (_speed * Time.deltaTime);
+        }
     }
 
     public void SetDirection(Vector3 direction)
     {
-        _direction = direction;
-        _direction.x += _speed;
+        direction.y = 0f;
+
+        if (direction.sqrMagnitude <= Mathf.Epsilon)
+            return; // não rotaciona/move se direção inválida
+
+        _direction = direction.normalized;
+
+        // Aponta o projétil na direção do tiro
+        transform.rotation = Quaternion.LookRotation(_direction, Vector3.up);
+
         transform.LookAt(transform.position + _direction);
     }
 
