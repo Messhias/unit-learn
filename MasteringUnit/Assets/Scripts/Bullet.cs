@@ -17,15 +17,23 @@ public class Bullet : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        var newPosition = transform.position;
-        newPosition += _direction * (_speed * Time.deltaTime);
-        transform.position = newPosition;
+        if (_direction.sqrMagnitude > 0f)
+        {
+            transform.position += _direction * (_speed * Time.deltaTime);
+        }
     }
 
     public void SetDirection(Vector3 direction)
     {
-        _direction = direction;
-        _direction.x += _speed;
+        direction.y = 0f;
+
+        if (direction.sqrMagnitude <= Mathf.Epsilon)
+            return;
+
+        _direction = direction.normalized;
+
+        transform.rotation = Quaternion.LookRotation(_direction, Vector3.up);
+
         transform.LookAt(transform.position + _direction);
     }
 
