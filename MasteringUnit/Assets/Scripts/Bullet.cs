@@ -28,11 +28,10 @@ public class Bullet : MonoBehaviour
         direction.y = 0f;
 
         if (direction.sqrMagnitude <= Mathf.Epsilon)
-            return; // não rotaciona/move se direção inválida
+            return;
 
         _direction = direction.normalized;
 
-        // Aponta o projétil na direção do tiro
         transform.rotation = Quaternion.LookRotation(_direction, Vector3.up);
 
         transform.LookAt(transform.position + _direction);

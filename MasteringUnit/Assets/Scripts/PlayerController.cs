@@ -81,7 +81,7 @@ public class PlayerController : MonoBehaviour
         var newBullet = Instantiate(
             _bulletToSpawn,
             transform.position,
-            Quaternion.LookRotation(dir, Vector3.up) // rotação já alinhada
+            Quaternion.LookRotation(dir, Vector3.up)
         );
 
         var bullet = newBullet.GetComponent<Bullet>();
