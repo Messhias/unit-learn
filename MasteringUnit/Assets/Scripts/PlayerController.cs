@@ -25,16 +25,20 @@ public class PlayerController : MonoBehaviour
 
     [FormerlySerializedAs("_extraGravity")] [SerializeField] [Tooltip("Additional gravitational pull")]
     private float extraGravity = 20;
+    
+    [SerializeField, Tooltip("Are we on the ground?")]
+    private bool _isGrounded;
 
     // the rigid body physics component of this object
     // since we'll be accessing it a lot, we'll store it as member.
     private Rigidbody _rigidbody;
+    private Collider _myCollider;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
-        GetComponent<Collider>();
+        _myCollider = GetComponent<Collider>();
     }
 
     // Update is called once per frame
@@ -101,12 +105,23 @@ public class PlayerController : MonoBehaviour
     private Vector3 PlayerJump(ref Vector3 currentSpeed)
     {
         // does player want to jump?
-        if (Input.GetKeyDown(KeyCode.Space) && Mathf.Abs(currentSpeed.y) < 1)
+        if (Input.GetKeyDown(KeyCode.Space) && CalcIsGround() && Mathf.Abs(currentSpeed.y) < 1)
             currentSpeed.y += jumpVelocity;
         else
             currentSpeed.y -= extraGravity * Time.deltaTime;
 
         return currentSpeed;
+    }
+
+    private bool CalcIsGround()
+    {
+        float offset = 0.1f;
+        Vector3 position = _myCollider.bounds.center;
+        position.y = _myCollider.bounds.min.y - offset;
+
+        _isGrounded = Physics.CheckSphere(position, offset);
+
+        return _isGrounded;
     }
 
     private Vector3 PlayerMove(ref Vector3 currentSpeed)
