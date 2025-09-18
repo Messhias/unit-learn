@@ -33,12 +33,24 @@ public class PlayerController : MonoBehaviour
     // since we'll be accessing it a lot, we'll store it as member.
     private Rigidbody _rigidbody;
     private Collider _myCollider;
+    
+    // store whether input was received this frame
+    private bool _moveInput;
+    
+    // the animator controller for this object.
+    private Animator _animator;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
     {
         _rigidbody = GetComponent<Rigidbody>();
         _myCollider = GetComponent<Collider>();
+        _animator = GetComponent<Animator>();
+
+        if (_animator)
+        {
+            _animator.Play("Idle");
+        }
     }
 
     // Update is called once per frame
@@ -48,6 +60,9 @@ public class PlayerController : MonoBehaviour
         // grabbing this ensures we retain the gravity speed.
         var currentSpeed = _rigidbody.linearVelocity;
 
+        // reset move input.
+        _moveInput = false;
+        
         currentSpeed = PlayerMove(ref currentSpeed);
 
         currentSpeed = PlayerJump(ref currentSpeed);
@@ -62,6 +77,25 @@ public class PlayerController : MonoBehaviour
         currentSpeed.z = Mathf.Clamp(currentSpeed.z, movementVelocityMax * -1, movementVelocityMax);
 
         _rigidbody.linearVelocity = currentSpeed;
+        
+        transform.LookAt(transform.position + new Vector3(-_currentFacing.x, 0f,  -_currentFacing.z));
+
+        UpdateAnimation();
+    }
+
+    private void UpdateAnimation()
+    {
+        if (!_animator)
+        {
+            return;
+        }
+
+        if (_moveInput)
+            _animator.Play("Run");
+        else
+        {
+            _animator.Play("Idle");
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -96,10 +130,14 @@ public class PlayerController : MonoBehaviour
     {
         // if both left and right keys are simultaneously pressed (or not pressed), apply friction
         if (Input.GetKey(KeyCode.LeftArrow) == Input.GetKey(KeyCode.RightArrow))
+        {
             currentSpeed.x -= movementDeceleration * currentSpeed.x;
+        }
 
         if (Input.GetKey(KeyCode.UpArrow) == Input.GetKey(KeyCode.DownArrow))
+        {
             currentSpeed.z -= movementDeceleration * currentSpeed.z;
+        }
     }
 
     private Vector3 PlayerJump(ref Vector3 currentSpeed)
@@ -131,6 +169,7 @@ public class PlayerController : MonoBehaviour
         // also store the facing based on the keys being pressed
         if (Input.GetKey(KeyCode.RightArrow))
         {
+            _moveInput = true;
             currentSpeed.x += movementAcceleration * Time.deltaTime;
             _currentFacing.x = 1;
             _currentFacing.z = 0;
@@ -138,6 +177,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKey(KeyCode.LeftArrow))
         {
+            _moveInput = true;
             currentSpeed.x -= movementAcceleration * Time.deltaTime;
             _currentFacing.x = -1;
             _currentFacing.z = 0;
@@ -145,6 +185,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKey(KeyCode.UpArrow))
         {
+            _moveInput = true;
             currentSpeed.z += movementAcceleration * Time.deltaTime;
             _currentFacing.x = 0;
             _currentFacing.z = 1;
@@ -152,6 +193,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetKey(KeyCode.DownArrow))
         {
+            _moveInput = true;
             currentSpeed.z -= movementAcceleration * Time.deltaTime;
             _currentFacing.x = 0;
             _currentFacing.z = -1;
