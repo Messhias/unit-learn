@@ -1,7 +1,8 @@
+using Contracts;
 using JetBrains.Annotations;
 using UnityEngine;
 
-public class HealthManager : MonoBehaviour
+public class HealthManager : MonoBehaviour, IHealthManager
 {
     private static GameSessionManager _gameSessionManagerInstance;
 
@@ -118,6 +119,8 @@ public class HealthManager : MonoBehaviour
 
     private void TakenDamageVisualFeedback()
     {
+        if (!_meshRenderer) return;
+        
         // handle visibility
         if (_meshRenderer)
         {
