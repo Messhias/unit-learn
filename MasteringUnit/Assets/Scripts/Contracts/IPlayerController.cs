@@ -2,6 +2,6 @@ namespace Contracts
 {
     public interface IPlayerController
     {
-        public void EquipWeapon(Weapon weapon);
+        public void EquipWeapon(IWeapon weapon);
     }
 }

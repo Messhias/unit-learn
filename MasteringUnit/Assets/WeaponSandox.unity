@@ -167,57 +167,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 733607846721509657, guid: 39c4303436a7c4c2480b2e0bdb758e37, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 733607846721509657, guid: 39c4303436a7c4c2480b2e0bdb758e37, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 733607846721509657, guid: 39c4303436a7c4c2480b2e0bdb758e37, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 733607846721509657, guid: 39c4303436a7c4c2480b2e0bdb758e37, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.62271726
-      objectReference: {fileID: 0}
-    - target: {fileID: 733607846721509657, guid: 39c4303436a7c4c2480b2e0bdb758e37, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0.30858597
-      objectReference: {fileID: 0}
-    - target: {fileID: 733607846721509657, guid: 39c4303436a7c4c2480b2e0bdb758e37, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0.7003784
-      objectReference: {fileID: 0}
-    - target: {fileID: 733607846721509657, guid: 39c4303436a7c4c2480b2e0bdb758e37, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0.16269012
-      objectReference: {fileID: 0}
-    - target: {fileID: 733607846721509657, guid: 39c4303436a7c4c2480b2e0bdb758e37, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: -9
-      objectReference: {fileID: 0}
-    - target: {fileID: 733607846721509657, guid: 39c4303436a7c4c2480b2e0bdb758e37, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: -100
-      objectReference: {fileID: 0}
-    - target: {fileID: 733607846721509657, guid: 39c4303436a7c4c2480b2e0bdb758e37, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 40
-      objectReference: {fileID: 0}
-    - target: {fileID: 4543259952502787325, guid: 39c4303436a7c4c2480b2e0bdb758e37, type: 3}
-      propertyPath: m_Name
-      value: Arm_L
-      objectReference: {fileID: 0}
     - target: {fileID: 4890508680788272632, guid: 39c4303436a7c4c2480b2e0bdb758e37, type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 6543744044353857564, guid: 39c4303436a7c4c2480b2e0bdb758e37, type: 3}
-      propertyPath: m_UseGravity
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
