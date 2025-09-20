@@ -154,17 +154,24 @@ public class PlayerController : MonoBehaviour, IPlayerController
     {
         if (!Input.GetKeyDown(KeyCode.Return)) return;
 
-        var dir = new Vector3(_currentFacing.x, 0f, _currentFacing.z).normalized;
-        if (dir.sqrMagnitude <= Mathf.Epsilon) return;
+
+        var direction = new Vector3(_currentFacing.x, 0f, _currentFacing.z).normalized;
+        if (direction.sqrMagnitude <= Mathf.Epsilon) return;
+        
+        if (Weapon != null)
+        {
+            Weapon.OnAttack(direction);
+            return;
+        }
 
         var newBullet = Instantiate(
             _bulletToSpawn,
             transform.position,
-            Quaternion.LookRotation(dir, Vector3.up)
+            Quaternion.LookRotation(direction, Vector3.up)
         );
 
         var bullet = newBullet.GetComponent<Bullet>();
-        bullet?.SetDirection(dir);
+        bullet?.SetDirection(direction);
     }
 
     private void AdjustPlayerFriction(ref Vector3 currentSpeed)
