@@ -58,8 +58,8 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.4
-  m_Height: 1.6
+  m_Radius: 0.1
+  m_Height: 1.54
   m_Direction: 1
   m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!54 &5745180855614975788
@@ -114,6 +114,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f59b5207ec62744fe94ee375dbb8b5da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  _pauseMovementMax: 1
 --- !u!1 &3002921257158648864
 GameObject:
   m_ObjectHideFlags: 0

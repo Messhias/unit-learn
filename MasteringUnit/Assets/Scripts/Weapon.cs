@@ -6,7 +6,7 @@ public class Weapon : MonoBehaviour, IWeapon
     #region *** Editor components ***
 
     [SerializeField, Tooltip("Pause movement after an attack?")]
-    private float _pauseMovementmax = 1.0f;
+    private float _pauseMovementMax = 1.0f;
     private float _pauseMovementTimer;
     
     #endregion

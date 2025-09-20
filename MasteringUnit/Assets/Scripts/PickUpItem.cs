@@ -2,7 +2,7 @@ using Contracts;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class PickUpItem : MonoBehaviour
+public class PickUpItem : MonoBehaviour, IPickUpItem
 {
     public static int SObjectsCollected;
 
@@ -27,7 +27,7 @@ public class PickUpItem : MonoBehaviour
 
     public void OnPickedUp(GameObject whoPickedUp)
     {
-        IWeapon weapon = GetComponent<Weapon>();
+        Weapon weapon = GetComponent<Weapon>();
         if (weapon != null)
         {
             IPlayerController player = whoPickedUp.GetComponent<PlayerController>();
@@ -40,6 +40,8 @@ public class PickUpItem : MonoBehaviour
                 // disabled this 'pickup' script.
                 enabled = false;
             }
+
+            return;
         } 
         
         // show the collection count in the console window

@@ -1,7 +1,8 @@
 using System;
+using Contracts;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public class Bullet : MonoBehaviour, IBullet
 {
     [SerializeField] [Tooltip("Speed of this bullet.")]
     private float _speed = 4f;
@@ -41,15 +42,14 @@ public class Bullet : MonoBehaviour
     {
         var target = other.gameObject;
         Debug.unityLogger.Log("Bullet hit " + target);
-        
+
         if (target.name != "Player")
         {
-
             if (target.name.Contains("EnemyObj_Spikes"))
             {
                 Destroy(target);
             }
-            
+
             // Doesn't matter what bullet hit, if bullet hit something, needs to be 
             // destroyed.
             if (!target.name.Contains("Spawn"))
@@ -61,7 +61,7 @@ public class Bullet : MonoBehaviour
     {
         var target = other.gameObject;
         Debug.unityLogger.Log("Bullet hit " + target);
-        
+
         if (target.name != "Player")
         {
             if (target.name.Contains("EnemyObj_Spikes"))
@@ -69,8 +69,8 @@ public class Bullet : MonoBehaviour
                 VFXHandler vfxHandler = target.GetComponent<VFXHandler>();
                 vfxHandler?.SpawnExplosion();
                 Destroy(target);
-                
             }
+
             // Doesn't matter what bullet hit, if bullet hit something, needs to be 
             // destroyed.
             if (!target.name.Contains("Spawn"))
