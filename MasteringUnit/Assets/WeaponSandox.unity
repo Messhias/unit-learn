@@ -119,6 +119,26 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &383956787 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2951885208912902485, guid: 68d222104cd764c8b8e4b3e7083e79fd, type: 3}
+  m_PrefabInstance: {fileID: 1967677928}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &383956793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 383956787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 329c53f1ca4dc47738d52e2185a682df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HealthModifier
+  _healthChange: -10
+  _applyToTarget: 0
+  _destroyOnCollision: 0
 --- !u!1001 &431627099
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -607,7 +627,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2951885208912902485, guid: 68d222104cd764c8b8e4b3e7083e79fd, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 383956793}
   m_SourcePrefab: {fileID: 100100000, guid: 68d222104cd764c8b8e4b3e7083e79fd, type: 3}
 --- !u!1001 &1671064070532715083
 PrefabInstance:
