@@ -7,32 +7,31 @@ namespace Base
     public abstract class WeaponBase : MonoBehaviour, IWeapon
     {
         #region *** Editor config ***
-        
+
         [SerializeField, Tooltip("Pause movement after an attack?")]
         private float _pauseMovementMax = 1.0f;
-        
-        #endregion 
-        
+
+        #endregion
+
         #region *** Private Properties ***
 
         private GameObject _attachmentParent;
-        
+
         internal RigidbodyConstraints _initialConstraints;
         internal Rigidbody _rigidbody;
         internal float PauseMovementTimer { get; set; }
-        
+
         #endregion
-        
+
         #region *** Protected Properties ***
-            protected float PauseMovementMax
-            {
-                get => _pauseMovementMax;
-                set => _pauseMovementMax = value;
-            }
 
+        protected float PauseMovementMax
+        {
+            get => _pauseMovementMax;
+            set => _pauseMovementMax = value;
+        }
 
-
-            #endregion
+        #endregion
 
 
         private void Start()
@@ -51,8 +50,8 @@ namespace Base
             }
 
             if (!_attachmentParent) return;
-            
-            
+
+
             Transform attachmentTransform = _attachmentParent.transform;
             transform.position = attachmentTransform.position;
             transform.localEulerAngles = attachmentTransform.localEulerAngles;
@@ -70,10 +69,23 @@ namespace Base
         }
 
         public abstract void OnAttack(Vector3 facing);
-        
+
         private void ResetWeaponBodyConstraints()
         {
             _rigidbody.constraints = _initialConstraints;
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            GameObject target = other.gameObject;
+
+            // If we attack spikes.
+            if (target.name.Contains("EnemyObj_Spikes"))
+            {
+                VFXHandler vfxHandler = target.GetComponent<VFXHandler>();
+                vfxHandler?.SpawnExplosion();
+                Destroy(target);
+            }
         }
     }
 }
