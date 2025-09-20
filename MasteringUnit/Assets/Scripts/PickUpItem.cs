@@ -1,3 +1,4 @@
+using Contracts;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -26,6 +27,21 @@ public class PickUpItem : MonoBehaviour
 
     public void OnPickedUp(GameObject whoPickedUp)
     {
+        IWeapon weapon = GetComponent<Weapon>();
+        if (weapon != null)
+        {
+            IPlayerController player = whoPickedUp.GetComponent<PlayerController>();
+
+            if (player != null)
+            {
+                // player has picked up a weapon
+                player.EquipWeapon(weapon);
+
+                // disabled this 'pickup' script.
+                enabled = false;
+            }
+        } 
+        
         // show the collection count in the console window
         SObjectsCollected++;
         Debug.Log($"{SObjectsCollected} items picked up");

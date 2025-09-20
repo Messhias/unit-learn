@@ -6,13 +6,13 @@ public class SelfDestructTimer : MonoBehaviour
     private float _countdownTimer = 1.5f;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void Start()
     {
         
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         _countdownTimer -= Time.deltaTime;
 

@@ -11,16 +11,16 @@ public class ToggleTimer : MonoBehaviour
     private float _tomerGoal = 3f;
     
     [SerializeField, Tooltip("Objects to toggle on/off.")]
-    List<GameObject> _toggleObjects = new List<GameObject>();
+    private List<GameObject> _toggleObjects = new List<GameObject>();
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void Start()
     {
         
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         // if there are no objects to toggler
         // then don't brother with the contdown logic
