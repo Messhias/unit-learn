@@ -1,32 +1,55 @@
-using Base;
 using Contracts;
 using UnityEngine;
 
-public class Weapon : WeaponBase
+public class Weapon : MonoBehaviour, IWeapon
 {
-    public override void OnAttack(Vector3 facing)
+    #region *** Editor components ***
+
+    [SerializeField, Tooltip("Pause movement after an attack?")]
+    private float _pauseMovementmax = 1.0f;
+    private float _pauseMovementTimer;
+    
+    #endregion
+    
+    private GameObject _attachmentParent;
+    
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    private void Start()
     {
-        if (bulletToSpawn)
+        
+    }
+
+    // Update is called once per frame
+    private void Update()
+    {
+        if (_pauseMovementTimer > 0f)
         {
-            var newBullet = Instantiate(
-                bulletToSpawn,
-                transform.position,
-                Quaternion.identity
-            );
-
-            IBullet bullet = newBullet.GetComponent<Bullet>();
-
-            bullet?.SetDirection(new Vector3(facing.x, 0f, facing.z));
-
+            _pauseMovementTimer -=  Time.deltaTime;
             return;
         }
 
+        if (_attachmentParent)
+        {
+            // reposition the weapon gfx in relation to whoever
+            // has this weapon equiped.
+            Transform tr = _attachmentParent.transform;
+            transform.position = tr.position;
+            transform.localEulerAngles  = tr.localEulerAngles;
+        }
+    }
 
-        transform.position += facing;
-        transform.Rotate(new Vector3(45f, -100f, 60f));
-        PauseMovementTimer = PauseMovementMax;
+    public void SetAttachmentParent(GameObject attachment)
+    {
+        _attachmentParent = attachment;
+    }
 
-        InitialConstraints = Rigidbody.constraints;
-        Rigidbody.constraints = RigidbodyConstraints.FreezeRotation;
+    public bool IsMovementPaused()
+    {
+        return _pauseMovementTimer > 0f;
+    }
+
+    public void OnAttack(Vector3 facing)
+    {
+        throw new System.NotImplementedException();
     }
 }

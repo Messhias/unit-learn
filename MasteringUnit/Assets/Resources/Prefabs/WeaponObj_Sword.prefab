@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 5745180855614975788}
   - component: {fileID: 1249301401397193856}
   - component: {fileID: 9174849910310238955}
-  - component: {fileID: 3881270048530121621}
   m_Layer: 0
   m_Name: WeaponObj_Sword
   m_TagString: Untagged
@@ -59,10 +58,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.16
-  m_Height: 1.18
+  m_Radius: 0.4
+  m_Height: 1.6
   m_Direction: 1
-  m_Center: {x: 0, y: 0.62, z: 0}
+  m_Center: {x: 0, y: 0.5, z: 0}
 --- !u!54 &5745180855614975788
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -115,22 +114,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f59b5207ec62744fe94ee375dbb8b5da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  _pauseMovementMax: 1
---- !u!114 &3881270048530121621
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2951885208912902485}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 329c53f1ca4dc47738d52e2185a682df, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HealthModifier
-  _healthChange: -10
-  _applyToTarget: 0
-  _destroyOnCollision: 0
 --- !u!1 &3002921257158648864
 GameObject:
   m_ObjectHideFlags: 0
