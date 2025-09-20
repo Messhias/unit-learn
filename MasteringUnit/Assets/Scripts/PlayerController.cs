@@ -34,8 +34,14 @@ public class PlayerController : MonoBehaviour, IPlayerController
     private bool _isGrounded;
 
     [SerializeField, Tooltip("The player's equipped weapon.")]
-    private Weapon _weaponEquipped;
+    private WeaponBase _weaponEquipped;
     
+    private IWeapon Weapon
+    {
+        get => _weaponEquipped;
+        set => _weaponEquipped = value as WeaponBase;
+    }
+
     #endregion
 
     #region *** private class members ***
@@ -228,9 +234,9 @@ public class PlayerController : MonoBehaviour, IPlayerController
 
     #region Weapons
     
-    public void EquipWeapon(Weapon weapon)
+    public void EquipWeapon(IWeapon weapon)
     {
-        _weaponEquipped = weapon;
+        Weapon = weapon;
         weapon.SetAttachmentParent(GameObject.Find("WEAPON_LOC"));
     }
     

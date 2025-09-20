@@ -27,8 +27,7 @@ public class PickUpItem : MonoBehaviour, IPickUpItem
 
     public void OnPickedUp(GameObject whoPickedUp)
     {
-        Weapon weapon = GetComponent<Weapon>();
-        if (weapon != null)
+        if (GetComponent<Weapon>() is WeaponBase weapon)
         {
             IPlayerController player = whoPickedUp.GetComponent<PlayerController>();
 

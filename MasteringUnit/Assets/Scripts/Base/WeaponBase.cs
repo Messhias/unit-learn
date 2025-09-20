@@ -1,94 +1,40 @@
 using Contracts;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-namespace Base
+public abstract class WeaponBase : MonoBehaviour, IWeapon
 {
-    public abstract class WeaponBase : MonoBehaviour, IWeapon
+    [SerializeField, Tooltip("Pause movement after an attack?")]
+    protected float _pauseMovementMax = 1.0f;
+    protected float _pauseMovementTimer;
+    
+    protected GameObject _attachmentParent;
+    
+    // Métodos que podem ser compartilhados
+    protected virtual void Update()
     {
-        #region *** Protected Properties ***
-
-        protected float PauseMovementMax
+        if (_pauseMovementTimer > 0f)
         {
-            get => pauseMovementMax;
-            set => pauseMovementMax = value;
+            _pauseMovementTimer -= Time.deltaTime;
+            return;
         }
 
-        #endregion
-
-
-        private void Start()
+        if (_attachmentParent)
         {
-            Rigidbody = GetComponent<Rigidbody>();
+            Transform tr = _attachmentParent.transform;
+            transform.position = tr.position;
+            transform.localEulerAngles = tr.localEulerAngles;
         }
-
-
-        // Métodos que podem ser compartilhados
-        private void Update()
-        {
-            if (PauseMovementTimer > 0f)
-            {
-                PauseMovementTimer -= Time.deltaTime;
-                return;
-            }
-
-            if (!_attachmentParent) return;
-
-
-            var attachmentTransform = _attachmentParent.transform;
-            transform.position = attachmentTransform.position;
-            transform.localEulerAngles = attachmentTransform.localEulerAngles;
-            ResetWeaponBodyConstraints();
-        }
-
-        private void OnTriggerEnter(Collider other)
-        {
-            var target = other.gameObject;
-
-            // If we attack spikes.
-            if (target.name.Contains("EnemyObj_Spikes"))
-            {
-                var vfxHandler = target.GetComponent<VFXHandler>();
-                vfxHandler?.SpawnExplosion();
-                Destroy(target);
-            }
-        }
-
-        public void SetAttachmentParent(GameObject attachment)
-        {
-            _attachmentParent = attachment;
-        }
-
-        public bool IsMovementPaused()
-        {
-            return PauseMovementTimer > 0f;
-        }
-
-        public abstract void OnAttack(Vector3 facing);
-
-        private void ResetWeaponBodyConstraints()
-        {
-            Rigidbody.constraints = InitialConstraints;
-        }
-
-        #region *** Editor config ***
-
-        [FormerlySerializedAs("_pauseMovementMax")] [SerializeField] [Tooltip("Pause movement after an attack?")]
-        private float pauseMovementMax = 1.0f;
-
-        [FormerlySerializedAs("_bulletToSpawn")] [SerializeField] [Tooltip("The bullet projectile to fire.")]
-        internal GameObject bulletToSpawn;
-
-        #endregion
-
-        #region *** Private Properties ***
-
-        private GameObject _attachmentParent;
-
-        internal RigidbodyConstraints InitialConstraints;
-        internal Rigidbody Rigidbody;
-        internal float PauseMovementTimer { get; set; }
-
-        #endregion
     }
+    
+    public void SetAttachmentParent(GameObject attachment)
+    {
+        _attachmentParent = attachment;
+    }
+
+    public bool IsMovementPaused()
+    {
+        return _pauseMovementTimer > 0f;
+    }
+
+    public abstract void OnAttack(Vector3 facing);
 }
