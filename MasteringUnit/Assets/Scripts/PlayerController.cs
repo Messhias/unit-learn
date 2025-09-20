@@ -1,8 +1,12 @@
+using System;
+using Contracts;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, IPlayerController
 {
+    #region *** Editor components ***
+    
     [SerializeField] [Tooltip("The bullet projectile prefab to fire.")]
     private GameObject _bulletToSpawn;
 
@@ -29,6 +33,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField, Tooltip("Are we on the ground?")]
     private bool _isGrounded;
 
+    [SerializeField, Tooltip("The player's equipped weapon.")]
+    private Weapon _weaponEquipped;
+    
+    #endregion
+
+    #region *** private class members ***
+    
     // the rigid body physics component of this object
     // since we'll be accessing it a lot, we'll store it as member.
     private Rigidbody _rigidbody;
@@ -39,6 +50,8 @@ public class PlayerController : MonoBehaviour
     
     // the animator controller for this object.
     private Animator _animator;
+    
+    #endregion
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
@@ -100,12 +113,23 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        // Debug.Log($"{other.name} entered");
         // did we collide with the PickUpItem?
         if (!other.gameObject.GetComponent<PickUpItem>()) return;
+        
         // we collided with a valid pickup item
         // so let that item know it's been 'Picked up' by this game object
-        var item = other.gameObject.GetComponent<PickUpItem>();
+        IPickUpItem item = other.gameObject.GetComponent<PickUpItem>();
+        item.OnPickedUp(gameObject);
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        // did we collide with the PickUpItem?
+        if (!other.gameObject.GetComponent<PickUpItem>()) return;
+        
+        // we collided with a valid pickup item
+        // so let that item know it's been 'Picked up' by this game object
+        IPickUpItem item = other.gameObject.GetComponent<PickUpItem>();
         item.OnPickedUp(gameObject);
     }
 
@@ -201,4 +225,14 @@ public class PlayerController : MonoBehaviour
 
         return currentSpeed;
     }
+
+    #region Weapons
+    
+    public void EquipWeapon(Weapon weapon)
+    {
+        _weaponEquipped = weapon;
+        weapon.SetAttachmentParent(GameObject.Find("WEAPON_LOC"));
+    }
+    
+    #endregion
 }
