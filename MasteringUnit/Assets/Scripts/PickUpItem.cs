@@ -1,15 +1,12 @@
 using Contracts;
-using Base;
-using Contracts;
-using Base;
-using Contracts;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PickUpItem : MonoBehaviour, IPickUpItem
 {
     public static int SObjectsCollected;
 
-    [SerializeField] [Tooltip("The speed that this object rotates at.")]
+    [FormerlySerializedAs("_rotationSpeed")] [SerializeField] [Tooltip("The speed that this object rotates at.")]
     private float rotationSpeed = 5;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -30,7 +27,8 @@ public class PickUpItem : MonoBehaviour, IPickUpItem
 
     public void OnPickedUp(GameObject whoPickedUp)
     {
-        if (GetComponent<Weapon>() is WeaponBase weapon)
+        Weapon weapon = GetComponent<Weapon>();
+        if (weapon != null)
         {
             IPlayerController player = whoPickedUp.GetComponent<PlayerController>();
 
@@ -44,8 +42,8 @@ public class PickUpItem : MonoBehaviour, IPickUpItem
             }
 
             return;
-        }
-
+        } 
+        
         // show the collection count in the console window
         SObjectsCollected++;
         Debug.Log($"{SObjectsCollected} items picked up");

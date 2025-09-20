@@ -1,3 +1,4 @@
+using System;
 using Contracts;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -33,7 +34,7 @@ public class PlayerController : MonoBehaviour, IPlayerController
     private bool _isGrounded;
 
     [SerializeField, Tooltip("The player's equipped weapon.")]
-    private IWeapon _weaponEquipped;
+    private Weapon _weaponEquipped;
     
     #endregion
 
@@ -112,12 +113,23 @@ public class PlayerController : MonoBehaviour, IPlayerController
 
     private void OnTriggerEnter(Collider other)
     {
-        // Debug.Log($"{other.name} entered");
         // did we collide with the PickUpItem?
         if (!other.gameObject.GetComponent<PickUpItem>()) return;
+        
         // we collided with a valid pickup item
         // so let that item know it's been 'Picked up' by this game object
-        var item = other.gameObject.GetComponent<PickUpItem>();
+        IPickUpItem item = other.gameObject.GetComponent<PickUpItem>();
+        item.OnPickedUp(gameObject);
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        // did we collide with the PickUpItem?
+        if (!other.gameObject.GetComponent<PickUpItem>()) return;
+        
+        // we collided with a valid pickup item
+        // so let that item know it's been 'Picked up' by this game object
+        IPickUpItem item = other.gameObject.GetComponent<PickUpItem>();
         item.OnPickedUp(gameObject);
     }
 
@@ -216,7 +228,7 @@ public class PlayerController : MonoBehaviour, IPlayerController
 
     #region Weapons
     
-    public void EquipWeapon(IWeapon weapon)
+    public void EquipWeapon(Weapon weapon)
     {
         _weaponEquipped = weapon;
         weapon.SetAttachmentParent(GameObject.Find("WEAPON_LOC"));
