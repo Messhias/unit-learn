@@ -1,3 +1,4 @@
+using System;
 using Contracts;
 using UnityEngine;
 
@@ -5,29 +6,59 @@ namespace Base
 {
     public abstract class WeaponBase : MonoBehaviour, IWeapon
     {
+        #region *** Editor config ***
+        
         [SerializeField, Tooltip("Pause movement after an attack?")]
-        protected float _pauseMovementMax = 1.0f;
-        protected float _pauseMovementTimer;
-    
-        protected GameObject _attachmentParent;
-    
-        // Métodos que podem ser compartilhados
-        protected virtual void Update()
-        {
-            if (_pauseMovementTimer > 0f)
+        private float _pauseMovementMax = 1.0f;
+        
+        #endregion 
+        
+        #region *** Private Properties ***
+
+        private GameObject _attachmentParent;
+        
+        internal RigidbodyConstraints _initialConstraints;
+        internal Rigidbody _rigidbody;
+        internal float PauseMovementTimer { get; set; }
+        
+        #endregion
+        
+        #region *** Protected Properties ***
+            protected float PauseMovementMax
             {
-                _pauseMovementTimer -= Time.deltaTime;
+                get => _pauseMovementMax;
+                set => _pauseMovementMax = value;
+            }
+
+
+
+            #endregion
+
+
+        private void Start()
+        {
+            _rigidbody = GetComponent<Rigidbody>();
+        }
+
+
+        // Métodos que podem ser compartilhados
+        private void Update()
+        {
+            if (PauseMovementTimer > 0f)
+            {
+                PauseMovementTimer -= Time.deltaTime;
                 return;
             }
 
-            if (_attachmentParent)
-            {
-                Transform tr = _attachmentParent.transform;
-                transform.position = tr.position;
-                transform.localEulerAngles = tr.localEulerAngles;
-            }
+            if (!_attachmentParent) return;
+            
+            
+            Transform attachmentTransform = _attachmentParent.transform;
+            transform.position = attachmentTransform.position;
+            transform.localEulerAngles = attachmentTransform.localEulerAngles;
+            ResetWeaponBodyConstraints();
         }
-    
+
         public void SetAttachmentParent(GameObject attachment)
         {
             _attachmentParent = attachment;
@@ -35,9 +66,14 @@ namespace Base
 
         public bool IsMovementPaused()
         {
-            return _pauseMovementTimer > 0f;
+            return PauseMovementTimer > 0f;
         }
 
         public abstract void OnAttack(Vector3 facing);
+        
+        private void ResetWeaponBodyConstraints()
+        {
+            _rigidbody.constraints = _initialConstraints;
+        }
     }
 }
