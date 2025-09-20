@@ -1,5 +1,6 @@
-using System;
+using Base;
 using Contracts;
+using Exceptions;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -39,7 +40,17 @@ public class PlayerController : MonoBehaviour, IPlayerController
     private IWeapon Weapon
     {
         get => _weaponEquipped;
-        set => _weaponEquipped = value as WeaponBase;
+        set 
+        {
+            if (value is WeaponBase weaponBase) 
+            {
+                _weaponEquipped = weaponBase;
+            }
+            else
+            {
+                throw new InvalidWeaponException($"The {value} is not a valid weapon! It is {value.GetType()}");
+            }
+        }
     }
 
     #endregion

@@ -1,5 +1,4 @@
-using Contracts;
-using Unity.VisualScripting;
+using Base;
 using UnityEngine;
 
 public class Weapon : WeaponBase

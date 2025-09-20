@@ -1,40 +1,43 @@
 using Contracts;
 using UnityEngine;
 
-public abstract class WeaponBase : MonoBehaviour, IWeapon
+namespace Base
 {
-    [SerializeField, Tooltip("Pause movement after an attack?")]
-    protected float _pauseMovementMax = 1.0f;
-    protected float _pauseMovementTimer;
-    
-    protected GameObject _attachmentParent;
-    
-    // Métodos que podem ser compartilhados
-    protected virtual void Update()
+    public abstract class WeaponBase : MonoBehaviour, IWeapon
     {
-        if (_pauseMovementTimer > 0f)
+        [SerializeField, Tooltip("Pause movement after an attack?")]
+        protected float _pauseMovementMax = 1.0f;
+        protected float _pauseMovementTimer;
+    
+        protected GameObject _attachmentParent;
+    
+        // Métodos que podem ser compartilhados
+        protected virtual void Update()
         {
-            _pauseMovementTimer -= Time.deltaTime;
-            return;
+            if (_pauseMovementTimer > 0f)
+            {
+                _pauseMovementTimer -= Time.deltaTime;
+                return;
+            }
+
+            if (_attachmentParent)
+            {
+                Transform tr = _attachmentParent.transform;
+                transform.position = tr.position;
+                transform.localEulerAngles = tr.localEulerAngles;
+            }
+        }
+    
+        public void SetAttachmentParent(GameObject attachment)
+        {
+            _attachmentParent = attachment;
         }
 
-        if (_attachmentParent)
+        public bool IsMovementPaused()
         {
-            Transform tr = _attachmentParent.transform;
-            transform.position = tr.position;
-            transform.localEulerAngles = tr.localEulerAngles;
+            return _pauseMovementTimer > 0f;
         }
-    }
-    
-    public void SetAttachmentParent(GameObject attachment)
-    {
-        _attachmentParent = attachment;
-    }
 
-    public bool IsMovementPaused()
-    {
-        return _pauseMovementTimer > 0f;
+        public abstract void OnAttack(Vector3 facing);
     }
-
-    public abstract void OnAttack(Vector3 facing);
 }
