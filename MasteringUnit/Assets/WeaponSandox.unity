@@ -231,33 +231,8 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 374592783326192857, guid: 6b8f1845f6f3c4da0ac0ec272712f14d, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 853706422}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6b8f1845f6f3c4da0ac0ec272712f14d, type: 3}
---- !u!1 &853706416 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 374592783326192857, guid: 6b8f1845f6f3c4da0ac0ec272712f14d, type: 3}
-  m_PrefabInstance: {fileID: 769598910}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &853706422
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 853706416}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7bed3035f4b04450ca09dfa9bfedf7a8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HealthManager
-  _healthMax: 10
-  _currentHealth: 10
-  _maximumInvencibleFrames: 10
-  _invincibilityFramesCur: 0
-  _isDead: 0
 --- !u!1 &913019003
 GameObject:
   m_ObjectHideFlags: 0
