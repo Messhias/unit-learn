@@ -86,6 +86,14 @@ public class PlayerController : MonoBehaviour, IPlayerController
     // Update is called once per frame
     private void Update()
     {
+        // pause movement if we've recently attacked
+        if (Weapon is not null && Weapon.IsMovementPaused())
+        {
+            _rigidbody.linearVelocity = Vector3.zero;
+            return;
+        }
+        
+        
         // get the current speed from the rigid body physics component.
         // grabbing this ensures we retain the gravity speed.
         var currentSpeed = _rigidbody.linearVelocity;
