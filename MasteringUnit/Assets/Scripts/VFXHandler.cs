@@ -26,10 +26,10 @@ public class VFXHandler : MonoBehaviour, IVFXHandler
     public void SpawnExplosion()
     {
         // spawn random number of the main chunks
-        int rand = Random.Range(_minChunks, _maxChunks);
+        var rand = Random.Range(_minChunks, _maxChunks);
         if (_mainExplosionChunk)
         {
-            for (int i = 0; i < rand; i++)
+            for (var i = 0; i < rand; i++)
             {
                 SpawnSubObject(_mainExplosionChunk);
                 SpawnSubObject(_secondaryExplosionChunk);
@@ -42,13 +42,13 @@ public class VFXHandler : MonoBehaviour, IVFXHandler
         // get random point around our object
         // should prevent collision with parent.
         
-        Vector3 position = transform.position;
+        var position = transform.position;
         position += Random.onUnitSphere * 0.8f;
 
-        GameObject newObject = Instantiate(prefab, position, Quaternion.identity);
+        var newObject = Instantiate(prefab, position, Quaternion.identity);
         
         // give the chunk a random velocity
-        Rigidbody component = newObject.GetComponent<Rigidbody>();
+        var component = newObject.GetComponent<Rigidbody>();
         component?.AddExplosionForce(_explosionForce, transform.position, 1f);
     }
 

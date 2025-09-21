@@ -1,10 +1,11 @@
-using System.Collections.Generic;
+using System;
 using System.Linq;
+using Implementations;
 using UnityEngine;
 
 public class HealthModifier : MonoBehaviour
 {
-    private enum DamageTarget
+    public enum DamageTarget
     {
         Enemies,
         Player,
@@ -14,8 +15,8 @@ public class HealthModifier : MonoBehaviour
 
     #region *** Editor ***
 
-    [SerializeField] [Tooltip("Knockback force when this damage is applied.")]
-    private float _knockbackForce;
+    [SerializeField, Tooltip("Knockback force when this damage is applied.")]
+    private float _knockbackForce = 0f;
 
     [SerializeField] [Tooltip("The class of object that should be damaged.")]
     private float _healthChange;
@@ -27,16 +28,16 @@ public class HealthModifier : MonoBehaviour
     private bool _destroyOnCollision;
 
     #endregion
-    
+
     #region *** private ***
 
-    private readonly IReadOnlyCollection<string> _cantKnockIn = new[]
+    private readonly ImmutableList<string> _cantKnockIn = new()
     {
         "Player",
         "RangeWeapon",
         "Spawn",
         "Plane",
-        "Ground"
+        "Ground",
     };
 
     #endregion
@@ -51,12 +52,25 @@ public class HealthModifier : MonoBehaviour
     {
     }
 
+    private void OnTriggerStay(Collider other)
+    {
+        if (!(_healthChange < 0f) || _knockbackForce == 0) return;
+
+        if (_cantKnockIn.Any(a => a.Contains(other.name)) || _cantKnockIn.Any(a => a.Contains(other.tag)))
+            return;
+
+        // apply knockback when damage is dealt
+        var rb = other?.GetComponent<Rigidbody>();
+        if (rb != null)
+            rb.AddExplosionForce(_knockbackForce, transform.position, 10f);
+    }
+
     private void OnCollisionStay(Collision other)
     {
         if (!(_healthChange < 0f) || _knockbackForce == 0) return;
 
-        if (_cantKnockIn.Contains(other.gameObject.name) ||
-            _cantKnockIn.Contains(other.gameObject.tag))
+        if (_cantKnockIn.Any(a => a.Contains(other.gameObject.name)) ||
+            _cantKnockIn.Any(a => a.Contains(other.gameObject.tag)))
             return;
 
         // apply knockback when damage is dealt
@@ -75,19 +89,6 @@ public class HealthModifier : MonoBehaviour
         if (healthManager && IsValidTarget(hitObject)) healthManager.AdjustCurrentHealth(_healthChange);
 
         if (_destroyOnCollision) Destroy(gameObject);
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        if (!(_healthChange < 0f) || _knockbackForce == 0) return;
-
-        if (_cantKnockIn.Contains(other.name) || _cantKnockIn.Contains(other.tag))
-            return;
-
-        // apply knockback when damage is dealt
-        var rb = other?.GetComponent<Rigidbody>();
-        if (rb != null)
-            rb.AddExplosionForce(_knockbackForce, transform.position, 10f);
     }
 
     private bool IsValidTarget(GameObject possibleTarget)

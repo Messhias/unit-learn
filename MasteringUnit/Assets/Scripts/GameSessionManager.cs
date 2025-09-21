@@ -1,19 +1,16 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Serialization;
 
 public class GameSessionManager : MonoBehaviour
 {
-    [FormerlySerializedAs("_respawnLocation")] [SerializeField] [Tooltip("Where the player will respawn.")]
-    private Transform respawnLocation;
+    [SerializeField] [Tooltip("Where the player will respawn.")]
+    private Transform _respawnLocation;
 
-    [FormerlySerializedAs("_gameOverObj")] [SerializeField] [Tooltip("Object to display when the game is over.")]
-    private GameObject gameOverObj;
+    [SerializeField] [Tooltip("Object to display when the game is over.")]
+    private GameObject _gameOverObj;
 
-    [FormerlySerializedAs("_returnToMenuCountdown")]
-    [SerializeField]
-    [Tooltip("Title Menu countdown after the game is over.")]
-    private float returnToMenuCountdown;
+    [SerializeField] [Tooltip("Title Menu countdown after the game is over.")]
+    private float _returnToMenuCountdown;
 
     [Tooltip("Remaining player lives.")] private int _playerLives = 3;
 
@@ -35,11 +32,11 @@ public class GameSessionManager : MonoBehaviour
 
     private void CheckGameOver()
     {
-        if (!(returnToMenuCountdown > 0)) return;
+        if (!(_returnToMenuCountdown > 0)) return;
 
 
-        returnToMenuCountdown -= Time.deltaTime;
-        if (returnToMenuCountdown < 0 && _playerLives <= 0) SceneManager.LoadScene("Scenes/TitleMenu");
+        _returnToMenuCountdown -= Time.deltaTime;
+        if (_returnToMenuCountdown < 0 && _playerLives <= 0) SceneManager.LoadScene("Scenes/TitleMenu");
     }
 
     public void OnPlayerDeath(GameObject player)
@@ -50,8 +47,8 @@ public class GameSessionManager : MonoBehaviour
             Destroy(player.gameObject);
             Debug.Log("Game Over.");
 
-            gameOverObj.SetActive(true);
-            returnToMenuCountdown = 4;
+            _gameOverObj.SetActive(true);
+            _returnToMenuCountdown = 4;
         }
         else
         {
@@ -62,12 +59,15 @@ public class GameSessionManager : MonoBehaviour
 
             if (playerHealth) playerHealth.Reset();
 
-            if (respawnLocation)
+            if (_respawnLocation)
             {
                 var rb = player.GetComponent<Rigidbody>();
-                if (rb) rb.linearVelocity = Vector3.zero;
-
-                player.transform.position = respawnLocation.position;
+                if (rb)
+                {
+                    rb.linearVelocity =  Vector3.zero;
+                }
+                
+                player.transform.position = _respawnLocation.position;
             }
 
             Debug.Log($"Player lives remaining: {_playerLives}.");

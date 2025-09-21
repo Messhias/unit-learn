@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 2070674166245926368}
   - component: {fileID: -5675875711096335440}
   - component: {fileID: 2960656005548197728}
+  - component: {fileID: 141975734641466239}
   m_Layer: 0
   m_Name: BulletObj_Basic
   m_TagString: Untagged
@@ -168,3 +169,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _countdownTimer: 1.5
+--- !u!114 &141975734641466239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1526811484989952490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 329c53f1ca4dc47738d52e2185a682df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HealthModifier
+  _knockbackForce: 400
+  _healthChange: -5
+  _applyToTarget: 0
+  _destroyOnCollision: 0
