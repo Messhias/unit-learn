@@ -1,3 +1,6 @@
+using System;
+using System.Linq;
+using Implementations;
 using UnityEngine;
 
 public class HealthModifier : MonoBehaviour
@@ -10,6 +13,11 @@ public class HealthModifier : MonoBehaviour
         None
     }
 
+    #region *** Editor ***
+
+    [SerializeField, Tooltip("Knockback force when this damage is applied.")]
+    private float _knockbackForce = 0f;
+
     [SerializeField] [Tooltip("The class of object that should be damaged.")]
     private float _healthChange;
 
@@ -19,6 +27,21 @@ public class HealthModifier : MonoBehaviour
     [SerializeField] [Tooltip("Should object self-destruct on collision?")]
     private bool _destroyOnCollision;
 
+    #endregion
+
+    #region *** private ***
+
+    private readonly ImmutableList<string> _cantKnockIn = new()
+    {
+        "Player",
+        "RangeWeapon",
+        "Spawn",
+        "Plane",
+        "Ground",
+    };
+
+    #endregion
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
     {
@@ -27,6 +50,33 @@ public class HealthModifier : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (!(_healthChange < 0f) || _knockbackForce == 0) return;
+
+        if (_cantKnockIn.Any(a => a.Contains(other.name)) || _cantKnockIn.Any(a => a.Contains(other.tag)))
+            return;
+
+        // apply knockback when damage is dealt
+        var rb = other?.GetComponent<Rigidbody>();
+        if (rb != null)
+            rb.AddExplosionForce(_knockbackForce, transform.position, 10f);
+    }
+
+    private void OnCollisionStay(Collision other)
+    {
+        if (!(_healthChange < 0f) || _knockbackForce == 0) return;
+
+        if (_cantKnockIn.Any(a => a.Contains(other.gameObject.name)) ||
+            _cantKnockIn.Any(a => a.Contains(other.gameObject.tag)))
+            return;
+
+        // apply knockback when damage is dealt
+        var rb = other.gameObject?.GetComponent<Rigidbody>();
+        if (rb != null)
+            rb.AddExplosionForce(_knockbackForce, transform.position, 10f);
     }
 
     private void OnTriggerEnter(Collider other)

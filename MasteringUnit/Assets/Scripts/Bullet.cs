@@ -11,14 +11,14 @@ public class Bullet : MonoBehaviour, IBullet
     [SerializeField] [Tooltip("Normalized direction of this bullet.")]
     private Vector3 _direction = Vector3.zero;
 
-    private readonly ImmutableList<string> _noDestroyOnEnterIn = new()
+    private readonly ImmutableList<string> _cannotDestroy = new()
     {
         "Player",
         "RangeWeapon",
         "Spawn",
     };
 
-    private readonly ImmutableList<string> _destroyOnEnterIn = new()
+    private readonly ImmutableList<string> _canDestroy = new()
     {
         "EnemyObj_Spikes",
     };
@@ -56,10 +56,10 @@ public class Bullet : MonoBehaviour, IBullet
         var target = other.gameObject;
         Debug.unityLogger.Log("Bullet hit " + target);
 
-        if (_noDestroyOnEnterIn.Any(item => target.name.Contains(item)) &&
-            _noDestroyOnEnterIn.Any(item => target.CompareTag(item))) return;
+        if (_cannotDestroy.Any(item => target.name.Contains(item)) &&
+            _cannotDestroy.Any(item => target.CompareTag(item))) return;
         
-        if (!_destroyOnEnterIn.Any(item => target.name.Contains(item))) return;
+        if (!_canDestroy.Any(item => target.name.Contains(item))) return;
         
         IVFXHandler vfxHandler = target.GetComponent<VFXHandler>();
         vfxHandler?.SpawnExplosion();
@@ -71,13 +71,19 @@ public class Bullet : MonoBehaviour, IBullet
         var target = other.gameObject;
         Debug.unityLogger.Log("Bullet hit " + target);
 
-        if (_noDestroyOnEnterIn.Any(item => target.name.Contains(item)) ||
-            !_noDestroyOnEnterIn.Any(item => target.CompareTag(item))) return;
+        if (_cannotDestroy.Any(item => target.name.Contains(item)) ||
+            !_cannotDestroy.Any(item => target.CompareTag(item))) return;
 
-        if (!_destroyOnEnterIn.Any(item => target.name.Contains(item))) return;
+        if (!_canDestroy.Any(item => target.name.Contains(item))) return;
         
         IVFXHandler vfxHandler = target.GetComponent<VFXHandler>();
         vfxHandler?.SpawnExplosion();
+        
+        // apply knockback when damage is dealt
+        var rb = other.gameObject?.GetComponent<Rigidbody>();
+        if (rb != null)
+            rb.AddExplosionForce(100, transform.position, 10f);
+        
         Destroy(target);
     }
 }

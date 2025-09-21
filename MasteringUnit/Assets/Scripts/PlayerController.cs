@@ -209,8 +209,8 @@ public class PlayerController : MonoBehaviour, IPlayerController
 
     private bool CalcIsGround()
     {
-        float offset = 0.1f;
-        Vector3 position = _myCollider.bounds.center;
+        var offset = 0.1f;
+        var position = _myCollider.bounds.center;
         position.y = _myCollider.bounds.min.y - offset;
 
         _isGrounded = Physics.CheckSphere(position, offset);

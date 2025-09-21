@@ -7,14 +7,14 @@ public class PhysicsForceZone : MonoBehaviour
 
     private void Awake()
     {
-        CapsuleCollider c =  GetComponent<CapsuleCollider>();
+        var c =  GetComponent<CapsuleCollider>();
 
         if (c)
         {
             c.isTrigger = true;
         }
         
-        Rigidbody rb = GetComponent<Rigidbody>();
+        var rb = GetComponent<Rigidbody>();
 
         if (rb)
         {
@@ -37,14 +37,14 @@ public class PhysicsForceZone : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        GameObject hitObject = other.gameObject;
+        var hitObject = other.gameObject;
 
         if (hitObject != null)
         {
-            Rigidbody rb = hitObject.GetComponent<Rigidbody>();
+            var rb = hitObject.GetComponent<Rigidbody>();
             
             // get the direction of the Y axis.
-            Vector3 direction = transform.up;
+            var direction = transform.up;
             
             rb.AddForce(direction * _forceToApply);
         }

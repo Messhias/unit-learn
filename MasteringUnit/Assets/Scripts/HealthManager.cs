@@ -57,7 +57,7 @@ public class HealthManager : MonoBehaviour, IHealthManager
 
         if (IsDead())
         {
-            VFXHandler vfxHandler = GetComponent<VFXHandler>();
+            var vfxHandler = GetComponent<VFXHandler>();
             vfxHandler?.SpawnExplosion();
             
             if (_playerController)
@@ -67,7 +67,7 @@ public class HealthManager : MonoBehaviour, IHealthManager
         }
         
         // insta-death when we're in an endless pit.
-        float yBounds = -25f;
+        var yBounds = -25f;
         if (transform.position.y < yBounds)
             _isDead = true;
     }

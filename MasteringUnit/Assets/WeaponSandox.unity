@@ -233,6 +233,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6b8f1845f6f3c4da0ac0ec272712f14d, type: 3}
+--- !u!1 &868775257 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4890508680788272632, guid: 39c4303436a7c4c2480b2e0bdb758e37, type: 3}
+  m_PrefabInstance: {fileID: 431627099}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &913019003
 GameObject:
   m_ObjectHideFlags: 0
@@ -484,6 +489,8 @@ GameObject:
   - component: {fileID: 1196254316}
   - component: {fileID: 1196254315}
   - component: {fileID: 1196254318}
+  - component: {fileID: 1196254319}
+  - component: {fileID: 1196254320}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -609,6 +616,35 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
+--- !u!114 &1196254319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1196254314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e84cee2aeca1f46e3a74f1eac25985e9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FollowCamera
+  _target: {fileID: 868775257}
+  _targetOffset: {x: 0, y: 0, z: 0}
+  _camHeight: 9
+  _camDistance: -16
+--- !u!114 &1196254320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1196254314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3ce6fa544a3a4449ac51472bffd927f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CameraShake
+  _shake: 0.05
 --- !u!1 &1737616150 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3673634976485664619, guid: 19b025bfe2fd541d2ad518649b3c2778, type: 3}
@@ -651,7 +687,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1395482973006152628, guid: 68d222104cd764c8b8e4b3e7083e79fd, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.53
+      value: -6.851
       objectReference: {fileID: 0}
     - target: {fileID: 1395482973006152628, guid: 68d222104cd764c8b8e4b3e7083e79fd, type: 3}
       propertyPath: m_LocalPosition.y

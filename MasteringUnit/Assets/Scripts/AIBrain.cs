@@ -118,7 +118,7 @@ public class AIBrain : MonoBehaviour, IAIBrain
 
     private Vector3 CalcPlayerPosition(bool ignoreY = false)
     {
-        Vector3 playerPosition = _playerObject.gameObject.transform.position;
+        var playerPosition = _playerObject.gameObject.transform.position;
 
         if (ignoreY)
         {
@@ -136,8 +136,8 @@ public class AIBrain : MonoBehaviour, IAIBrain
     public void MoveTowardsPlayer(float speed)
     {
         // move towards the player.
-        Vector3 playerPosition = CalcPlayerPosition(true);
-        Vector3 newPosition = transform.position;
+        var playerPosition = CalcPlayerPosition(true);
+        var newPosition = transform.position;
         
         playerPosition.y = transform.position.y;
         newPosition += (playerPosition - transform.position) * (speed * Time.deltaTime);
@@ -152,7 +152,7 @@ public class AIBrain : MonoBehaviour, IAIBrain
 
     public void MoveTowardsPlayerUsingNavMesh()
     {
-        NavMeshAgent agent = GetComponent<NavMeshAgent>();
+        var agent = GetComponent<NavMeshAgent>();
         if (agent)
         {
             agent.SetDestination(_playerObject.transform.position);

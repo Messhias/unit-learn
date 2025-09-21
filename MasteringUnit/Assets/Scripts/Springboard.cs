@@ -7,8 +7,8 @@ public class Springboard : MonoBehaviour
 
     private void OnCollisionEnter(Collision other)
     {
-        GameObject hitObject = other.gameObject;
-        Rigidbody rb = hitObject?.GetComponent<Rigidbody>();
+        var hitObject = other.gameObject;
+        var rb = hitObject?.GetComponent<Rigidbody>();
         rb?.AddForce(0, _upwardsForce, 0);
     }
 

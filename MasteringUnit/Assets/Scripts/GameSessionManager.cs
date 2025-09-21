@@ -61,7 +61,7 @@ public class GameSessionManager : MonoBehaviour
 
             if (_respawnLocation)
             {
-                Rigidbody rb = player.GetComponent<Rigidbody>();
+                var rb = player.GetComponent<Rigidbody>();
                 if (rb)
                 {
                     rb.linearVelocity =  Vector3.zero;

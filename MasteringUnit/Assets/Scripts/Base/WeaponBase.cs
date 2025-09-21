@@ -54,7 +54,7 @@ namespace Base
             if (!_attachmentParent) return;
 
 
-            Transform attachmentTransform = _attachmentParent.transform;
+            var attachmentTransform = _attachmentParent.transform;
             transform.position = attachmentTransform.position;
             transform.localEulerAngles = attachmentTransform.localEulerAngles;
             ResetWeaponBodyConstraints();
@@ -79,12 +79,12 @@ namespace Base
 
         private void OnTriggerEnter(Collider other)
         {
-            GameObject target = other.gameObject;
+            var target = other.gameObject;
 
             // If we attack spikes.
             if (target.name.Contains("EnemyObj_Spikes"))
             {
-                VFXHandler vfxHandler = target.GetComponent<VFXHandler>();
+                var vfxHandler = target.GetComponent<VFXHandler>();
                 vfxHandler?.SpawnExplosion();
                 Destroy(target);
             }
