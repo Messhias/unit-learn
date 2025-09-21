@@ -1,5 +1,7 @@
 using Contracts;
 using UnityEngine;
+using System.Linq;
+using Implementations;
 
 public class Bullet : MonoBehaviour, IBullet
 {
@@ -8,6 +10,18 @@ public class Bullet : MonoBehaviour, IBullet
 
     [SerializeField] [Tooltip("Normalized direction of this bullet.")]
     private Vector3 _direction = Vector3.zero;
+
+    private readonly ImmutableList<string> _noDestroyOnEnterIn = new()
+    {
+        "Player",
+        "RangeWeapon",
+        "Spawn",
+    };
+
+    private readonly ImmutableList<string> _destroyOnEnterIn = new()
+    {
+        "EnemyObj_Spikes",
+    };
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
@@ -25,7 +39,7 @@ public class Bullet : MonoBehaviour, IBullet
 
     public void SetDirection(Vector3 direction)
     {
-        direction.y = 0f;
+        // direction.y = 0f;
 
         if (direction.sqrMagnitude <= Mathf.Epsilon)
             return;
@@ -42,18 +56,14 @@ public class Bullet : MonoBehaviour, IBullet
         var target = other.gameObject;
         Debug.unityLogger.Log("Bullet hit " + target);
 
-        if (target.name != "Player")
-        {
-            if (target.name.Contains("EnemyObj_Spikes"))
-            {
-                Destroy(target);
-            }
-
-            // Doesn't matter what bullet hit, if bullet hit something, needs to be 
-            // destroyed.
-            if (!target.name.Contains("Spawn"))
-                Destroy(gameObject);
-        }
+        if (_noDestroyOnEnterIn.Any(item => target.name.Contains(item)) &&
+            _noDestroyOnEnterIn.Any(item => target.CompareTag(item))) return;
+        
+        if (!_destroyOnEnterIn.Any(item => target.name.Contains(item))) return;
+        
+        IVFXHandler vfxHandler = target.GetComponent<VFXHandler>();
+        vfxHandler?.SpawnExplosion();
+        Destroy(target);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -61,19 +71,13 @@ public class Bullet : MonoBehaviour, IBullet
         var target = other.gameObject;
         Debug.unityLogger.Log("Bullet hit " + target);
 
-        if (target.name != "Player")
-        {
-            if (target.name.Contains("EnemyObj_Spikes"))
-            {
-                VFXHandler vfxHandler = target.GetComponent<VFXHandler>();
-                vfxHandler?.SpawnExplosion();
-                Destroy(target);
-            }
+        if (_noDestroyOnEnterIn.Any(item => target.name.Contains(item)) ||
+            !_noDestroyOnEnterIn.Any(item => target.CompareTag(item))) return;
 
-            // Doesn't matter what bullet hit, if bullet hit something, needs to be 
-            // destroyed.
-            if (!target.name.Contains("Spawn"))
-                Destroy(gameObject);
-        }
+        if (!_destroyOnEnterIn.Any(item => target.name.Contains(item))) return;
+        
+        IVFXHandler vfxHandler = target.GetComponent<VFXHandler>();
+        vfxHandler?.SpawnExplosion();
+        Destroy(target);
     }
 }

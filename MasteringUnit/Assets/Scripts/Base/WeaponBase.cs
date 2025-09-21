@@ -1,4 +1,3 @@
-using System;
 using Contracts;
 using UnityEngine;
 
@@ -10,6 +9,9 @@ namespace Base
 
         [SerializeField, Tooltip("Pause movement after an attack?")]
         private float _pauseMovementMax = 1.0f;
+        
+        [SerializeField, Tooltip("The bullet projectile to fire.")]
+        internal GameObject _bulletToSpawn;
 
         #endregion
 

@@ -1,7 +1,12 @@
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class VFXHandler : MonoBehaviour
+public interface IVFXHandler
+{
+    void SpawnExplosion();
+}
+
+public class VFXHandler : MonoBehaviour, IVFXHandler
 {
     [SerializeField, Tooltip("Prefab to spawn when hit and destroyed.")]
     private GameObject _mainExplosionChunk;
