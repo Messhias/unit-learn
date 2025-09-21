@@ -229,6 +229,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f59b5207ec62744fe94ee375dbb8b5da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Weapon
+  _pauseMovementMax: 1
+  _bulletToSpawn: {fileID: 1526811484989952490, guid: c37ad03c7c5a744698082aac474b3ffd, type: 3}
 --- !u!114 &1186769210309459282
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -261,10 +263,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.27
-  m_Height: 1.83
+  m_Radius: 0.16
+  m_Height: 1.77
   m_Direction: 2
-  m_Center: {x: 0, y: 0.3, z: -0.63}
+  m_Center: {x: 0, y: 0.34, z: -0.62}
 --- !u!1 &4190300147070370176
 GameObject:
   m_ObjectHideFlags: 0
