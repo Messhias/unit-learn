@@ -181,7 +181,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 329c53f1ca4dc47738d52e2185a682df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HealthModifier
-  _knockbackForce: 100
+  _knockbackForce: 400
   _healthChange: -5
   _applyToTarget: 0
   _destroyOnCollision: 0
