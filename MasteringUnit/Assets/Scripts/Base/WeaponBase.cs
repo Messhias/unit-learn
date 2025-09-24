@@ -1,36 +1,17 @@
 using Contracts;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Base
 {
     public abstract class WeaponBase : MonoBehaviour, IWeapon
     {
-        #region *** Editor config ***
-
-        [SerializeField, Tooltip("Pause movement after an attack?")]
-        private float _pauseMovementMax = 1.0f;
-        
-        [SerializeField, Tooltip("The bullet projectile to fire.")]
-        internal GameObject _bulletToSpawn;
-
-        #endregion
-
-        #region *** Private Properties ***
-
-        private GameObject _attachmentParent;
-
-        internal RigidbodyConstraints _initialConstraints;
-        internal Rigidbody _rigidbody;
-        internal float PauseMovementTimer { get; set; }
-
-        #endregion
-
         #region *** Protected Properties ***
 
         protected float PauseMovementMax
         {
-            get => _pauseMovementMax;
-            set => _pauseMovementMax = value;
+            get => pauseMovementMax;
+            set => pauseMovementMax = value;
         }
 
         #endregion
@@ -38,7 +19,7 @@ namespace Base
 
         private void Start()
         {
-            _rigidbody = GetComponent<Rigidbody>();
+            Rigidbody = GetComponent<Rigidbody>();
         }
 
 
@@ -60,6 +41,19 @@ namespace Base
             ResetWeaponBodyConstraints();
         }
 
+        private void OnTriggerEnter(Collider other)
+        {
+            var target = other.gameObject;
+
+            // If we attack spikes.
+            if (target.name.Contains("EnemyObj_Spikes"))
+            {
+                var vfxHandler = target.GetComponent<VFXHandler>();
+                vfxHandler?.SpawnExplosion();
+                Destroy(target);
+            }
+        }
+
         public void SetAttachmentParent(GameObject attachment)
         {
             _attachmentParent = attachment;
@@ -74,20 +68,27 @@ namespace Base
 
         private void ResetWeaponBodyConstraints()
         {
-            _rigidbody.constraints = _initialConstraints;
+            Rigidbody.constraints = InitialConstraints;
         }
 
-        private void OnTriggerEnter(Collider other)
-        {
-            var target = other.gameObject;
+        #region *** Editor config ***
 
-            // If we attack spikes.
-            if (target.name.Contains("EnemyObj_Spikes"))
-            {
-                var vfxHandler = target.GetComponent<VFXHandler>();
-                vfxHandler?.SpawnExplosion();
-                Destroy(target);
-            }
-        }
+        [FormerlySerializedAs("_pauseMovementMax")] [SerializeField] [Tooltip("Pause movement after an attack?")]
+        private float pauseMovementMax = 1.0f;
+
+        [FormerlySerializedAs("_bulletToSpawn")] [SerializeField] [Tooltip("The bullet projectile to fire.")]
+        internal GameObject bulletToSpawn;
+
+        #endregion
+
+        #region *** Private Properties ***
+
+        private GameObject _attachmentParent;
+
+        internal RigidbodyConstraints InitialConstraints;
+        internal Rigidbody Rigidbody;
+        internal float PauseMovementTimer { get; set; }
+
+        #endregion
     }
 }
