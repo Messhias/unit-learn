@@ -1,11 +1,12 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class CameraShake : MonoBehaviour
 {
-    [SerializeField] [Tooltip("Magnitude of the shake effect.")]
-    private float _shake = 0.05f;
+    [FormerlySerializedAs("_shake")] [SerializeField] [Tooltip("Magnitude of the shake effect.")]
+    private float shake = 0.05f;
 
-    internal Vector3 _newPosition = Vector3.zero;
+    internal Vector3 NewPosition = Vector3.zero;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
@@ -16,11 +17,11 @@ public class CameraShake : MonoBehaviour
     private void Update()
     {
         // if enabled, give camera a little shake
-        _newPosition = new Vector3
+        NewPosition = new Vector3
         {
-            x = Random.Range(-_shake, +_shake),
-            y = Random.Range(-_shake, +_shake),
-            z =  Random.Range(-_shake, +_shake)
+            x = Random.Range(-shake, +shake),
+            y = Random.Range(-shake, +shake),
+            z = Random.Range(-shake, +shake)
         };
 
         // transform.position = _newPosition;
