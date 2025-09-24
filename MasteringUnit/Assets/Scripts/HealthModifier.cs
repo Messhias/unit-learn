@@ -1,13 +1,36 @@
-using System;
+using System.Collections.Generic;
 using System.Linq;
-using Implementations;
 using UnityEngine;
 
 public class HealthModifier : MonoBehaviour
 {
+    private enum DamageTarget
+    {
+        Enemies,
+        Player,
+        All,
+        None
+    }
+
+    #region *** Editor ***
+
+    [SerializeField] [Tooltip("Knockback force when this damage is applied.")]
+    private float _knockbackForce;
+
+    [SerializeField] [Tooltip("The class of object that should be damaged.")]
+    private float _healthChange;
+
+    [SerializeField] [Tooltip("The class of object that should be damaged.")]
+    private DamageTarget _applyToTarget = DamageTarget.Player;
+
+    [SerializeField] [Tooltip("Should object self-destruct on collision?")]
+    private bool _destroyOnCollision;
+
+    #endregion
+    
     #region *** private ***
 
-    private readonly ImmutableList<string> _cantKnockIn = new()
+    private readonly IReadOnlyCollection<string> _cantKnockIn = new[]
     {
         "Player",
         "RangeWeapon",
@@ -30,7 +53,7 @@ public class HealthModifier : MonoBehaviour
 
     private void OnCollisionStay(Collision other)
     {
-        if (!(healthChange < 0f) || knockbackForce == 0) return;
+        if (!(_healthChange < 0f) || _knockbackForce == 0) return;
 
         if (_cantKnockIn.Contains(other.gameObject.name) ||
             _cantKnockIn.Contains(other.gameObject.tag))
@@ -39,7 +62,7 @@ public class HealthModifier : MonoBehaviour
         // apply knockback when damage is dealt
         var rb = other.gameObject?.GetComponent<Rigidbody>();
         if (rb != null)
-            rb.AddExplosionForce(knockbackForce, transform.position, 10f);
+            rb.AddExplosionForce(_knockbackForce, transform.position, 10f);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -49,14 +72,14 @@ public class HealthModifier : MonoBehaviour
         // get HealthManager of the object we've hit.
         var healthManager = hitObject.GetComponent<HealthManager>();
 
-        if (healthManager && IsValidTarget(hitObject)) healthManager.AdjustCurrentHealth(healthChange);
+        if (healthManager && IsValidTarget(hitObject)) healthManager.AdjustCurrentHealth(_healthChange);
 
-        if (destroyOnCollision) Destroy(gameObject);
+        if (_destroyOnCollision) Destroy(gameObject);
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (!(healthChange < 0f) || knockbackForce == 0) return;
+        if (!(_healthChange < 0f) || _knockbackForce == 0) return;
 
         if (_cantKnockIn.Contains(other.name) || _cantKnockIn.Contains(other.tag))
             return;
@@ -64,12 +87,12 @@ public class HealthModifier : MonoBehaviour
         // apply knockback when damage is dealt
         var rb = other?.GetComponent<Rigidbody>();
         if (rb != null)
-            rb.AddExplosionForce(knockbackForce, transform.position, 10f);
+            rb.AddExplosionForce(_knockbackForce, transform.position, 10f);
     }
 
     private bool IsValidTarget(GameObject possibleTarget)
     {
-        switch (applyToTarget)
+        switch (_applyToTarget)
         {
             case DamageTarget.All:
                 return true;
@@ -83,28 +106,4 @@ public class HealthModifier : MonoBehaviour
                 return false;
         }
     }
-
-    private enum DamageTarget
-    {
-        Enemies,
-        Player,
-        All,
-        None
-    }
-
-    #region *** Editor ***
-
-    [SerializeField] [Tooltip("Knockback force when this damage is applied.")]
-    private float knockbackForce;
-
-    [SerializeField] [Tooltip("The class of object that should be damaged.")]
-    private float healthChange;
-
-    [SerializeField] [Tooltip("The class of object that should be damaged.")]
-    private DamageTarget applyToTarget = DamageTarget.Player;
-
-    [SerializeField] [Tooltip("Should object self-destruct on collision?")]
-    private bool destroyOnCollision;
-
-    #endregion
 }

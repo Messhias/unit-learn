@@ -228,16 +228,19 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5725400749572532948, guid: 6b8f1845f6f3c4da0ac0ec272712f14d, type: 3}
+      propertyPath: mainExplosionChunk
+      value: 
+      objectReference: {fileID: 7984945608201064787, guid: 9b466128c591d45d4901fc2ff826fa91, type: 3}
+    - target: {fileID: 5725400749572532948, guid: 6b8f1845f6f3c4da0ac0ec272712f14d, type: 3}
+      propertyPath: secondaryExplosionChunk
+      value: 
+      objectReference: {fileID: 3017170658251952781, guid: 28eca502faf7d49fb8a4a622fab45dcf, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6b8f1845f6f3c4da0ac0ec272712f14d, type: 3}
---- !u!1 &868775257 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4890508680788272632, guid: 39c4303436a7c4c2480b2e0bdb758e37, type: 3}
-  m_PrefabInstance: {fileID: 431627099}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &913019003
 GameObject:
   m_ObjectHideFlags: 0
@@ -628,10 +631,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e84cee2aeca1f46e3a74f1eac25985e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FollowCamera
-  _target: {fileID: 868775257}
-  _targetOffset: {x: 0, y: 0, z: 0}
-  _camHeight: 9
-  _camDistance: -16
+  target: {fileID: 0}
+  targetOffset: {x: 0, y: 0, z: 0}
+  camHeight: 9
+  camDistance: -16
 --- !u!114 &1196254320
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -644,7 +647,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3ce6fa544a3a4449ac51472bffd927f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraShake
-  _shake: 0.05
+  shake: 0.05
 --- !u!1 &1737616150 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3673634976485664619, guid: 19b025bfe2fd541d2ad518649b3c2778, type: 3}

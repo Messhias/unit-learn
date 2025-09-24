@@ -164,21 +164,8 @@ public class PlayerController : MonoBehaviour, IPlayerController
 
         var direction = new Vector3(_currentFacing.x, 0f, _currentFacing.z).normalized;
         if (direction.sqrMagnitude <= Mathf.Epsilon) return;
-        
-        if (Weapon != null)
-        {
-            Weapon.OnAttack(direction);
-            return;
-        }
 
-        var newBullet = Instantiate(
-            _bulletToSpawn,
-            transform.position,
-            Quaternion.LookRotation(direction, Vector3.up)
-        );
-
-        var bullet = newBullet.GetComponent<Bullet>();
-        bullet?.SetDirection(direction);
+        Weapon?.OnAttack(direction);
     }
 
     private void AdjustPlayerFriction(ref Vector3 currentSpeed)
