@@ -169,17 +169,7 @@ public class PlayerController : MonoBehaviour, IPlayerController
         if (Weapon != null)
         {
             Weapon.OnAttack(direction);
-            return;
         }
-
-        var newBullet = Instantiate(
-            _bulletToSpawn,
-            transform.position,
-            Quaternion.LookRotation(direction, Vector3.up)
-        );
-
-        var bullet = newBullet.GetComponent<Bullet>();
-        bullet?.SetDirection(direction);
     }
 
     private void AdjustPlayerFriction(ref Vector3 currentSpeed)

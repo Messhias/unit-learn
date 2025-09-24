@@ -1,6 +1,5 @@
-using System;
+using System.Collections.Generic;
 using System.Linq;
-using Implementations;
 using UnityEngine;
 
 public class HealthModifier : MonoBehaviour
@@ -31,7 +30,7 @@ public class HealthModifier : MonoBehaviour
 
     #region *** private ***
 
-    private readonly ImmutableList<string> _cantKnockIn = new()
+    private readonly IReadOnlyCollection<string> _cantKnockIn = new[]
     {
         "Player",
         "RangeWeapon",
