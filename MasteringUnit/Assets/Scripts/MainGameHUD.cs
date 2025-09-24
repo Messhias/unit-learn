@@ -4,16 +4,16 @@ using UnityEngine;
 public class MainGameHUD : MonoBehaviour
 {
     [SerializeField] [Tooltip("TMP object displaying our current health")]
-    private TextMeshProUGUI _healthValueText;
+    private TextMeshProUGUI healthValueText;
 
     [SerializeField] [Tooltip("TMP object displaying the # of collected coins.")]
-    private TextMeshProUGUI _coinValueText;
+    private TextMeshProUGUI coinValueText;
 
     [SerializeField] [Tooltip("TMP object displaying lives remaining.")]
-    private TextMeshProUGUI _livesRemainingText;
+    private TextMeshProUGUI livesRemainingText;
 
     [SerializeField] [Tooltip("The Health Manager we're displaying data for.")]
-    private HealthManager _healthManager;
+    private HealthManager healthManager;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
@@ -23,13 +23,13 @@ public class MainGameHUD : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        var currentHealth = Mathf.RoundToInt(_healthManager.GetCurrentHealth());
-        var maxHealth = Mathf.RoundToInt(_healthManager.GetMaxHealth());
+        var currentHealth = Mathf.RoundToInt(healthManager.GetCurrentHealth());
+        var maxHealth = Mathf.RoundToInt(healthManager.GetMaxHealth());
 
-        _healthValueText.text = $"{currentHealth}/{maxHealth}";
+        healthValueText.text = $"{currentHealth}/{maxHealth}";
 
-        _coinValueText.text = GameSessionManager.GetCoins().ToString();
+        coinValueText.text = GameSessionManager.GetCoins().ToString();
 
-        _livesRemainingText.text = GameSessionManager.Instance.GetLives().ToString();
+        livesRemainingText.text = GameSessionManager.Instance.GetLives().ToString();
     }
 }

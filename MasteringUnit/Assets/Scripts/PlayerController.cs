@@ -1,8 +1,13 @@
+using Base;
+using Contracts;
+using Exceptions;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, IPlayerController
 {
+    #region *** Editor components ***
+    
     [SerializeField] [Tooltip("The bullet projectile prefab to fire.")]
     private GameObject _bulletToSpawn;
 
@@ -29,6 +34,29 @@ public class PlayerController : MonoBehaviour
     [SerializeField, Tooltip("Are we on the ground?")]
     private bool _isGrounded;
 
+    [SerializeField, Tooltip("The player's equipped weapon.")]
+    private WeaponBase _weaponEquipped;
+    
+    private IWeapon Weapon
+    {
+        get => _weaponEquipped;
+        set 
+        {
+            if (value is WeaponBase weaponBase) 
+            {
+                _weaponEquipped = weaponBase;
+            }
+            else
+            {
+                throw new InvalidWeaponException($"The {value} is not a valid weapon! It is {value.GetType()}");
+            }
+        }
+    }
+
+    #endregion
+
+    #region *** private class members ***
+    
     // the rigid body physics component of this object
     // since we'll be accessing it a lot, we'll store it as member.
     private Rigidbody _rigidbody;
@@ -39,6 +67,8 @@ public class PlayerController : MonoBehaviour
     
     // the animator controller for this object.
     private Animator _animator;
+    
+    #endregion
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
@@ -56,6 +86,13 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
+        // pause movement if we've recently attacked
+        if (Weapon is not null && Weapon.IsMovementPaused())
+        {
+            _rigidbody.linearVelocity = Vector3.zero;
+            return;
+        }
+        
         // get the current speed from the rigid body physics component.
         // grabbing this ensures we retain the gravity speed.
         var currentSpeed = _rigidbody.linearVelocity;
@@ -100,12 +137,23 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        // Debug.Log($"{other.name} entered");
         // did we collide with the PickUpItem?
         if (!other.gameObject.GetComponent<PickUpItem>()) return;
+        
         // we collided with a valid pickup item
         // so let that item know it's been 'Picked up' by this game object
-        var item = other.gameObject.GetComponent<PickUpItem>();
+        IPickUpItem item = other.gameObject.GetComponent<PickUpItem>();
+        item.OnPickedUp(gameObject);
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        // did we collide with the PickUpItem?
+        if (!other.gameObject.GetComponent<PickUpItem>()) return;
+        
+        // we collided with a valid pickup item
+        // so let that item know it's been 'Picked up' by this game object
+        IPickUpItem item = other.gameObject.GetComponent<PickUpItem>();
         item.OnPickedUp(gameObject);
     }
 
@@ -113,17 +161,11 @@ public class PlayerController : MonoBehaviour
     {
         if (!Input.GetKeyDown(KeyCode.Return)) return;
 
-        var dir = new Vector3(_currentFacing.x, 0f, _currentFacing.z).normalized;
-        if (dir.sqrMagnitude <= Mathf.Epsilon) return;
 
-        var newBullet = Instantiate(
-            _bulletToSpawn,
-            transform.position,
-            Quaternion.LookRotation(dir, Vector3.up)
-        );
+        var direction = new Vector3(_currentFacing.x, 0f, _currentFacing.z).normalized;
+        if (direction.sqrMagnitude <= Mathf.Epsilon) return;
 
-        var bullet = newBullet.GetComponent<Bullet>();
-        bullet?.SetDirection(dir);
+        Weapon?.OnAttack(direction);
     }
 
     private void AdjustPlayerFriction(ref Vector3 currentSpeed)
@@ -153,8 +195,8 @@ public class PlayerController : MonoBehaviour
 
     private bool CalcIsGround()
     {
-        float offset = 0.1f;
-        Vector3 position = _myCollider.bounds.center;
+        var offset = 0.1f;
+        var position = _myCollider.bounds.center;
         position.y = _myCollider.bounds.min.y - offset;
 
         _isGrounded = Physics.CheckSphere(position, offset);
@@ -201,4 +243,14 @@ public class PlayerController : MonoBehaviour
 
         return currentSpeed;
     }
+
+    #region Weapons
+    
+    public void EquipWeapon(IWeapon weapon)
+    {
+        Weapon = weapon;
+        weapon.SetAttachmentParent(GameObject.Find("WEAPON_LOC"));
+    }
+    
+    #endregion
 }
