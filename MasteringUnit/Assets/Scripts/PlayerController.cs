@@ -93,7 +93,6 @@ public class PlayerController : MonoBehaviour, IPlayerController
             return;
         }
         
-        
         // get the current speed from the rigid body physics component.
         // grabbing this ensures we retain the gravity speed.
         var currentSpeed = _rigidbody.linearVelocity;

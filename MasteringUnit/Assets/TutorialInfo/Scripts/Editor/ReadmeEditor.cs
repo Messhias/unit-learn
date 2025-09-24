@@ -9,9 +9,9 @@ using UnityEngine.Serialization;
 public class ReadmeEditor : Editor
 {
     private const float KSpace = 16f;
-    private static readonly string _sShowedReadmeSessionStateName = "ReadmeEditor.showedReadme";
+    private static readonly string SShowedReadmeSessionStateName = "ReadmeEditor.showedReadme";
 
-    private static readonly string _sReadmeSourceDirectory = "Assets/TutorialInfo";
+    private static readonly string SReadmeSourceDirectory = "Assets/TutorialInfo";
 
     [FormerlySerializedAs("m_LinkStyle")] [SerializeField]
     private GUIStyle mLinkStyle;
@@ -48,18 +48,18 @@ public class ReadmeEditor : Editor
     private static void RemoveTutorial()
     {
         if (EditorUtility.DisplayDialog("Remove Readme Assets",
-                $"All contents under {_sReadmeSourceDirectory} will be removed, are you sure you want to proceed?",
+                $"All contents under {SReadmeSourceDirectory} will be removed, are you sure you want to proceed?",
                 "Proceed",
                 "Cancel"))
         {
-            if (Directory.Exists(_sReadmeSourceDirectory))
+            if (Directory.Exists(SReadmeSourceDirectory))
             {
-                FileUtil.DeleteFileOrDirectory(_sReadmeSourceDirectory);
-                FileUtil.DeleteFileOrDirectory(_sReadmeSourceDirectory + ".meta");
+                FileUtil.DeleteFileOrDirectory(SReadmeSourceDirectory);
+                FileUtil.DeleteFileOrDirectory(SReadmeSourceDirectory + ".meta");
             }
             else
             {
-                Debug.Log($"Could not find the Readme folder at {_sReadmeSourceDirectory}");
+                Debug.Log($"Could not find the Readme folder at {SReadmeSourceDirectory}");
             }
 
             var readmeAsset = SelectReadme();
@@ -76,10 +76,10 @@ public class ReadmeEditor : Editor
 
     private static void SelectReadmeAutomatically()
     {
-        if (!SessionState.GetBool(_sShowedReadmeSessionStateName, false))
+        if (!SessionState.GetBool(SShowedReadmeSessionStateName, false))
         {
             var readme = SelectReadme();
-            SessionState.SetBool(_sShowedReadmeSessionStateName, true);
+            SessionState.SetBool(SShowedReadmeSessionStateName, true);
 
             if (readme && !readme.loadedLayout)
             {
