@@ -31,21 +31,19 @@ public class PickUpItem : MonoBehaviour, IPickUpItem
         {
             IPlayerController player = whoPickedUp.GetComponent<PlayerController>();
 
-            if (player != null)
-            {
-                // player has picked up a weapon
-                player.EquipWeapon(weapon);
+            if (player == null) return;
+            
+            // player has picked up a weapon
+            player.EquipWeapon(weapon);
 
-                // disabled this 'pickup' script.
-                enabled = false;
-            }
+            // disabled this 'pickup' script.
+            enabled = false;
 
             return;
         }
 
         // show the collection count in the console window
         SObjectsCollected++;
-        Debug.Log($"{SObjectsCollected} items picked up");
 
         Destroy(gameObject);
     }

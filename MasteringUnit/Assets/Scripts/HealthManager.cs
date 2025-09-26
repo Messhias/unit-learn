@@ -120,7 +120,6 @@ public class HealthManager : MonoBehaviour, IHealthManager
     {
         if (currentHealth >= 0)
         {
-            Debug.Log($"{gameObject.name} set as dead before health reached 0.");
             isDead = true;
         }
     }

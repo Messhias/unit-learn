@@ -167,6 +167,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 733607846721509657, guid: 39c4303436a7c4c2480b2e0bdb758e37, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 733607846721509657, guid: 39c4303436a7c4c2480b2e0bdb758e37, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 733607846721509657, guid: 39c4303436a7c4c2480b2e0bdb758e37, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 733607846721509657, guid: 39c4303436a7c4c2480b2e0bdb758e37, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 733607846721509657, guid: 39c4303436a7c4c2480b2e0bdb758e37, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -90
+      objectReference: {fileID: 0}
     - target: {fileID: 4890508680788272632, guid: 39c4303436a7c4c2480b2e0bdb758e37, type: 3}
       propertyPath: m_Name
       value: Player
@@ -228,14 +248,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5725400749572532948, guid: 6b8f1845f6f3c4da0ac0ec272712f14d, type: 3}
-      propertyPath: mainExplosionChunk
-      value: 
-      objectReference: {fileID: 7984945608201064787, guid: 9b466128c591d45d4901fc2ff826fa91, type: 3}
-    - target: {fileID: 5725400749572532948, guid: 6b8f1845f6f3c4da0ac0ec272712f14d, type: 3}
-      propertyPath: secondaryExplosionChunk
-      value: 
-      objectReference: {fileID: 3017170658251952781, guid: 28eca502faf7d49fb8a4a622fab45dcf, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -648,38 +660,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraShake
   shake: 0.05
---- !u!1 &1737616150 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3673634976485664619, guid: 19b025bfe2fd541d2ad518649b3c2778, type: 3}
-  m_PrefabInstance: {fileID: 1671064070532715083}
-  m_PrefabAsset: {fileID: 0}
---- !u!54 &1737616155
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1737616150}
-  serializedVersion: 5
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!1001 &1967677928
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -731,14 +711,6 @@ PrefabInstance:
     - target: {fileID: 2951885208912902485, guid: 68d222104cd764c8b8e4b3e7083e79fd, type: 3}
       propertyPath: m_Name
       value: WeaponObj_Sword
-      objectReference: {fileID: 0}
-    - target: {fileID: 4709264231677596337, guid: 68d222104cd764c8b8e4b3e7083e79fd, type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5745180855614975788, guid: 68d222104cd764c8b8e4b3e7083e79fd, type: 3}
-      propertyPath: m_UseGravity
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -797,17 +769,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: WeaponObj_Blaster
       objectReference: {fileID: 0}
-    - target: {fileID: 3673634976485664619, guid: 19b025bfe2fd541d2ad518649b3c2778, type: 3}
-      propertyPath: m_TagString
-      value: RangeWeapon
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 3673634976485664619, guid: 19b025bfe2fd541d2ad518649b3c2778, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1737616155}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 19b025bfe2fd541d2ad518649b3c2778, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
