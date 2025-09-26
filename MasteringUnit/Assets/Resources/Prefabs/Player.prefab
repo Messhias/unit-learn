@@ -1006,7 +1006,7 @@ Transform:
   m_GameObject: {fileID: 4890508680788272632}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.71, y: 0.59, z: -7.28}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1062,6 +1062,7 @@ MonoBehaviour:
   jumpVelocity: 20
   extraGravity: 20
   _isGrounded: 0
+  _weaponEquipped: {fileID: 0}
 --- !u!54 &6543744044353857564
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1101,11 +1102,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bed3035f4b04450ca09dfa9bfedf7a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _healthMax: 10
-  _currentHealth: 10
-  _maximumInvencibleFrames: 10
-  _invincibilityFramesCur: 0
-  _isDead: 0
+  healthMax: 10
+  currentHealth: 10
+  maximumInvencibleFrames: 10
+  invincibilityFramesCur: 0
+  isDead: 0
 --- !u!95 &8042963063060316246
 Animator:
   serializedVersion: 7
