@@ -7,9 +7,13 @@ namespace Base
     public abstract class WeaponBase : MonoBehaviour, IWeapon
     {
         [SerializeField, Tooltip("Animation to play when attacking")]
-        private string _attackAnimation = "SwingSword_1";
+        private string _attackAnimation = "SwingSowrd_01";
 
-        public string AttackAnimation => _attackAnimation;
+        public string AttackAnimation
+        {
+            get => _attackAnimation;
+            set => _attackAnimation = value;
+        }
 
         #region *** Protected Properties ***
 
