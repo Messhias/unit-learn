@@ -1,20 +1,24 @@
 using System.Collections.Generic;
+using System.Linq;
 using Contracts;
 using UnityEngine;
-using System.Linq;
 
 public class Bullet : MonoBehaviour, IBullet
 {
-    [SerializeField] [Tooltip("Speed of this bullet.")]
-    private float _speed = 4f;
+    #region *** private properties ***
 
     [SerializeField] [Tooltip("Normalized direction of this bullet.")]
     private Vector3 _direction = Vector3.zero;
+    
+    [SerializeField, Tooltip("Bullet speed")]
+    private float _speed = 400.0f;
 
     private readonly IReadOnlyCollection<string> _canDestroy = new[]
     {
         "EnemyObj_Spikes"
     };
+
+    #endregion
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
@@ -31,12 +35,16 @@ public class Bullet : MonoBehaviour, IBullet
     {
         var target = other.gameObject;
 
-        if (!_canDestroy.Any(item => target.name.Contains(item))) return;
-        
-        Debug.unityLogger.Log("Bullet hit " + target);
-        
+        if (!_canDestroy.Contains(target.name)) return;
+
         IVFXHandler vfxHandler = target.GetComponent<VFXHandler>();
         vfxHandler?.SpawnExplosion();
+
+        // apply knockback when damage is dealt
+        var rb = other.gameObject?.GetComponent<Rigidbody>();
+        if (rb != null)
+            rb.AddExplosionForce(100, transform.position, 10f);
+
         Destroy(target);
     }
 
@@ -44,10 +52,8 @@ public class Bullet : MonoBehaviour, IBullet
     {
         var target = other.gameObject;
 
-        if (!_canDestroy.Any(item => target.name.Contains(item))) return;
-        
-        Debug.unityLogger.Log("Bullet hit " + target);
-        
+        if (!_canDestroy.Contains(target.name)) return;
+
         IVFXHandler vfxHandler = target.GetComponent<VFXHandler>();
         vfxHandler?.SpawnExplosion();
 

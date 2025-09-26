@@ -61,6 +61,7 @@ public class PlayerController : MonoBehaviour, IPlayerController
     // since we'll be accessing it a lot, we'll store it as member.
     private Rigidbody _rigidbody;
     private Collider _myCollider;
+    private GameObject _weaponAllocator;
     
     // store whether input was received this frame
     private bool _moveInput;
@@ -76,6 +77,7 @@ public class PlayerController : MonoBehaviour, IPlayerController
         _rigidbody = GetComponent<Rigidbody>();
         _myCollider = GetComponent<Collider>();
         _animator = GetComponent<Animator>();
+        _weaponAllocator = GameObject.Find("WEAPON_LOC");
 
         if (_animator)
         {
@@ -159,13 +161,21 @@ public class PlayerController : MonoBehaviour, IPlayerController
 
     private void FireWeapon()
     {
+        if (Weapon is null)
+        {
+            return;
+        }
         if (!Input.GetKeyDown(KeyCode.Return)) return;
 
 
         var direction = new Vector3(_currentFacing.x, 0f, _currentFacing.z).normalized;
         if (direction.sqrMagnitude <= Mathf.Epsilon) return;
 
-        Weapon?.OnAttack(direction);
+        Weapon.OnAttack(direction);
+
+        if (string.IsNullOrEmpty(Weapon.AttackAnimation)) return;
+        
+        _animator.Play(Weapon.AttackAnimation);
     }
 
     private void AdjustPlayerFriction(ref Vector3 currentSpeed)
@@ -240,6 +250,7 @@ public class PlayerController : MonoBehaviour, IPlayerController
             _currentFacing.x = 0;
             _currentFacing.z = -1;
         }
+        
 
         return currentSpeed;
     }
@@ -249,7 +260,7 @@ public class PlayerController : MonoBehaviour, IPlayerController
     public void EquipWeapon(IWeapon weapon)
     {
         Weapon = weapon;
-        weapon.SetAttachmentParent(GameObject.Find("WEAPON_LOC"));
+        weapon.SetAttachmentParent(_weaponAllocator);
     }
     
     #endregion

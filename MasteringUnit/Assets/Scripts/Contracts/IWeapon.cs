@@ -7,5 +7,6 @@ namespace Contracts
         void SetAttachmentParent(GameObject attachment);
         bool IsMovementPaused();
         void OnAttack(Vector3 facing);
+        string AttackAnimation { get; set; }
     }
 }

@@ -20,10 +20,7 @@ public class Weapon : WeaponBase
 
             return;
         }
-
-
-        transform.position += facing;
-        transform.Rotate(new Vector3(45f, -100f, 60f));
+        
         PauseMovementTimer = PauseMovementMax;
 
         InitialConstraints = Rigidbody.constraints;

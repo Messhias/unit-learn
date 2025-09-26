@@ -6,6 +6,15 @@ namespace Base
 {
     public abstract class WeaponBase : MonoBehaviour, IWeapon
     {
+        [SerializeField, Tooltip("Animation to play when attacking")]
+        private string _attackAnimation = "SwingSowrd_01";
+
+        public string AttackAnimation
+        {
+            get => _attackAnimation;
+            set => _attackAnimation = value;
+        }
+
         #region *** Protected Properties ***
 
         protected float PauseMovementMax
@@ -29,7 +38,7 @@ namespace Base
             if (PauseMovementTimer > 0f)
             {
                 PauseMovementTimer -= Time.deltaTime;
-                return;
+                // return;
             }
 
             if (!_attachmentParent) return;
