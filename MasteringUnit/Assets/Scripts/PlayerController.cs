@@ -61,6 +61,7 @@ public class PlayerController : MonoBehaviour, IPlayerController
     // since we'll be accessing it a lot, we'll store it as member.
     private Rigidbody _rigidbody;
     private Collider _myCollider;
+    private GameObject _weaponAllocator;
     
     // store whether input was received this frame
     private bool _moveInput;
@@ -76,6 +77,7 @@ public class PlayerController : MonoBehaviour, IPlayerController
         _rigidbody = GetComponent<Rigidbody>();
         _myCollider = GetComponent<Collider>();
         _animator = GetComponent<Animator>();
+        _weaponAllocator = GameObject.Find("WEAPON_LOC");
 
         if (_animator)
         {
@@ -248,6 +250,7 @@ public class PlayerController : MonoBehaviour, IPlayerController
             _currentFacing.x = 0;
             _currentFacing.z = -1;
         }
+        
 
         return currentSpeed;
     }
@@ -257,7 +260,7 @@ public class PlayerController : MonoBehaviour, IPlayerController
     public void EquipWeapon(IWeapon weapon)
     {
         Weapon = weapon;
-        weapon.SetAttachmentParent(GameObject.Find("WEAPON_LOC"));
+        weapon.SetAttachmentParent(_weaponAllocator);
     }
     
     #endregion
