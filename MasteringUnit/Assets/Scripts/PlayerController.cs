@@ -159,13 +159,21 @@ public class PlayerController : MonoBehaviour, IPlayerController
 
     private void FireWeapon()
     {
+        if (Weapon is null)
+        {
+            return;
+        }
         if (!Input.GetKeyDown(KeyCode.Return)) return;
 
 
         var direction = new Vector3(_currentFacing.x, 0f, _currentFacing.z).normalized;
         if (direction.sqrMagnitude <= Mathf.Epsilon) return;
 
-        Weapon?.OnAttack(direction);
+        Weapon.OnAttack(direction);
+
+        if (string.IsNullOrEmpty(Weapon.AttackAnimation)) return;
+        
+        _animator.Play(Weapon.AttackAnimation);
     }
 
     private void AdjustPlayerFriction(ref Vector3 currentSpeed)
