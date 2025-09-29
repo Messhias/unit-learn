@@ -34,8 +34,15 @@ public class PhysicsForceZone : MonoBehaviour
         var hitObject = other.gameObject;
 
         if (hitObject == null) return;
+        
+        Debug.Log($"Hit object {hitObject}");
 
         var rb = hitObject.GetComponent<Rigidbody>();
+        
+        if (rb == null) return;
+        
+        
+        Debug.Log($"Hit rb {rb}");
 
         // get the direction of the Y axis.
         var direction = transform.up;
