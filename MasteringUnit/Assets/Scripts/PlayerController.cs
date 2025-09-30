@@ -139,26 +139,40 @@ public class PlayerController : MonoBehaviour, IPlayerController
 
     private void OnTriggerEnter(Collider other)
     {
-        // did we collide with the PickUpItem?
-        if (!other.gameObject.GetComponent<PickUpItem>()) return;
-        
-        // we collided with a valid pickup item
-        // so let that item know it's been 'Picked up' by this game object
-        IPickUpItem item = other.gameObject.GetComponent<PickUpItem>();
-        item.OnPickedUp(gameObject);
+        var otherGameObject = other.gameObject;
+
+        PickUpItem(otherGameObject);
     }
 
     private void OnCollisionEnter(Collision other)
     {
+        var otherGameObject = other.gameObject;
+        
+        PickUpItem(otherGameObject);
+    }
+
+    private void PickUpItem(GameObject otherGameObject)
+    {
         // did we collide with the PickUpItem?
-        if (!other.gameObject.GetComponent<PickUpItem>()) return;
+        if (!otherGameObject.GetComponent<PickUpItem>()) return;
+        
+        // avoid the player equip "same weapon" again and replace it randomly
+        // when pass through other weapon.
+        if (Weapon != null)
+        {
+            var objectName = otherGameObject.name;
+            if (objectName.Contains("Sword") || objectName.Contains("Blaster"))
+            {
+                return;
+            }
+        }
         
         // we collided with a valid pickup item
         // so let that item know it's been 'Picked up' by this game object
-        IPickUpItem item = other.gameObject.GetComponent<PickUpItem>();
+        IPickUpItem item = otherGameObject.GetComponent<PickUpItem>();
         item.OnPickedUp(gameObject);
     }
-
+    
     private void FireWeapon()
     {
         if (Weapon is null)

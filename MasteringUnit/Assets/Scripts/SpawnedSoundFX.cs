@@ -13,17 +13,23 @@ public class SpawnedSoundFX : MonoBehaviour
         var prefab = Resources.Load<GameObject>(_prefabPath);
         var newObject = Instantiate(prefab, position, Quaternion.identity);
         
-        
         // add randomness to pitch
         var random = Random.Range(0.95f, 1.05f);
         var soundScript = newObject.GetComponent<SpawnedSoundFX>();
+        
+        // swap audio clip.
+        if (clip != null)
+        {
+            soundScript.audioSource.clip = clip;
+            soundScript.audioSource.Play();
+            return;
+        }
+        
+        
         if (soundScript != null)
         {
             soundScript.audioSource.pitch = random;
         }
-
-
-        // TODO: swap audio clip.
     }
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
