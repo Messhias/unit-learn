@@ -115,7 +115,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f59b5207ec62744fe94ee375dbb8b5da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  attackAudioClip: {fileID: 8300000, guid: 23f2c0c1cf60f4628a9ebb4cefd98c48, type: 3}
   _attackAnimation: SwingSowrd_01
+  weaponType: 0
   pauseMovementMax: 1
   bulletToSpawn: {fileID: 0}
 --- !u!114 &3881270048530121621

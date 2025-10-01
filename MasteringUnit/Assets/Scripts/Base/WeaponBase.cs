@@ -2,13 +2,29 @@ using Contracts;
 using UnityEngine;
 using UnityEngine.Serialization;
 
+public enum WeaponType
+{
+    Sword,
+    FireArm
+}
+
 namespace Base
 {
     public abstract class WeaponBase : MonoBehaviour, IWeapon
     {
+        
+        #region Editor Fields
+        
+        public AudioClip attackAudioClip;
+
         [SerializeField, Tooltip("Animation to play when attacking")]
         private string _attackAnimation = "SwingSowrd_01";
 
+        [SerializeField, Tooltip("Identify the weapon type it is")]
+        protected WeaponType weaponType;
+
+        #endregion
+        
         public string AttackAnimation
         {
             get => _attackAnimation;

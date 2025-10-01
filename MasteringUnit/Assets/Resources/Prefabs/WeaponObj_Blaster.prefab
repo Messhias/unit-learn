@@ -230,7 +230,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f59b5207ec62744fe94ee375dbb8b5da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Weapon
+  attackAudioClip: {fileID: 8300000, guid: 895a48fbeb4df4a9c948ffb12803071c, type: 3}
   _attackAnimation: SwordAttack01
+  weaponType: 1
   pauseMovementMax: 1
   bulletToSpawn: {fileID: 1526811484989952490, guid: c37ad03c7c5a744698082aac474b3ffd, type: 3}
 --- !u!114 &1186769210309459282
