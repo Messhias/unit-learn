@@ -233,7 +233,13 @@ public class PlayerController : MonoBehaviour, IPlayerController
         // Check to see if any of the keyboard arrows are being pressed
         // if so, adjust the speed of the player
         // also store the facing based on the keys being pressed
-        if (Input.GetKey(KeyCode.RightArrow))
+        
+        var right = Input.GetKey(KeyCode.RightArrow) ||  Input.GetKey(KeyCode.D);
+        var left = Input.GetKey(KeyCode.LeftArrow) ||  Input.GetKey(KeyCode.A);
+        var up =  Input.GetKey(KeyCode.UpArrow) ||  Input.GetKey(KeyCode.W);
+        var down = Input.GetKey(KeyCode.DownArrow) ||  Input.GetKey(KeyCode.S);
+        
+        if (right)
         {
             _moveInput = true;
             currentSpeed.x += movementAcceleration * Time.deltaTime;
@@ -241,7 +247,7 @@ public class PlayerController : MonoBehaviour, IPlayerController
             _currentFacing.z = 0;
         }
 
-        if (Input.GetKey(KeyCode.LeftArrow))
+        if (left)
         {
             _moveInput = true;
             currentSpeed.x -= movementAcceleration * Time.deltaTime;
@@ -249,7 +255,7 @@ public class PlayerController : MonoBehaviour, IPlayerController
             _currentFacing.z = 0;
         }
 
-        if (Input.GetKey(KeyCode.UpArrow))
+        if (up)
         {
             _moveInput = true;
             currentSpeed.z += movementAcceleration * Time.deltaTime;
@@ -257,14 +263,13 @@ public class PlayerController : MonoBehaviour, IPlayerController
             _currentFacing.z = 1;
         }
 
-        if (Input.GetKey(KeyCode.DownArrow))
-        {
-            _moveInput = true;
-            currentSpeed.z -= movementAcceleration * Time.deltaTime;
-            _currentFacing.x = 0;
-            _currentFacing.z = -1;
-        }
+        if (!down) return currentSpeed;
         
+        _moveInput = true;
+        currentSpeed.z -= movementAcceleration * Time.deltaTime;
+        _currentFacing.x = 0;
+        _currentFacing.z = -1;
+
 
         return currentSpeed;
     }
