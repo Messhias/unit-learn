@@ -1056,7 +1056,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _bulletToSpawn: {fileID: 1526811484989952490, guid: c37ad03c7c5a744698082aac474b3ffd, type: 3}
   _currentFacing: {x: 0, y: 0, z: 0}
-  movementAcceleration: 50
+  movementAcceleration: 2000
   movementVelocityMax: 10
   movementDeceleration: 0.1
   jumpVelocity: 20
