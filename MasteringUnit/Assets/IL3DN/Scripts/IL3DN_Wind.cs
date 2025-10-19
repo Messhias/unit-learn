@@ -1,33 +1,31 @@
+using UnityEngine;
+
 namespace IL3DN
 {
-    using UnityEngine;
     [ExecuteInEditMode]
-
-    public class IL3DN_Wind : MonoBehaviour
+    public class IL3DnWind : MonoBehaviour
     {
-        private float WindGizmo = 0.5f;
+        private readonly float _windGizmo = 0.5f;
 
-        void Update()
+        private void Update()
         {
-
             Shader.SetGlobalVector("WindDirection", transform.rotation * Vector3.back);
-
         }
 
-        void OnDrawGizmos()
+        private void OnDrawGizmos()
         {
-            Vector3 dir = (transform.position + transform.forward).normalized;
+            var dir = (transform.position + transform.forward).normalized;
 
             Gizmos.color = Color.green;
-            Vector3 up = transform.up;
-            Vector3 side = transform.right;
+            var up = transform.up;
+            var side = transform.right;
 
-            Vector3 end = transform.position + transform.forward * (WindGizmo * 5f);
-            Vector3 mid = transform.position + transform.forward * (WindGizmo * 2.5f);
-            Vector3 start = transform.position + transform.forward * (WindGizmo * 0f);
+            var end = transform.position + transform.forward * (_windGizmo * 5f);
+            var mid = transform.position + transform.forward * (_windGizmo * 2.5f);
+            var start = transform.position + transform.forward * (_windGizmo * 0f);
 
-            float s = WindGizmo;
-            Vector3 front = transform.forward * WindGizmo;
+            var s = _windGizmo;
+            var front = transform.forward * _windGizmo;
 
             Gizmos.DrawLine(start, start - front + up * s);
             Gizmos.DrawLine(start, start - front - up * s);
@@ -46,7 +44,6 @@ namespace IL3DN
             Gizmos.DrawLine(end, end - front + side * s);
             Gizmos.DrawLine(end, end - front - side * s);
             Gizmos.DrawLine(end, end - front * 2);
-
         }
     }
 }

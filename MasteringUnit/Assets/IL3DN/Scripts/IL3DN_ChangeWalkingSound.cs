@@ -1,11 +1,12 @@
+using UnityEngine;
+
 namespace IL3DN
 {
-    using UnityEngine;
     /// <summary>
-    /// Override player sound when walking in different environments
-    /// Attach this to a trigger
+    ///     Override player sound when walking in different environments
+    ///     Attach this to a trigger
     /// </summary>
-    public class IL3DN_ChangeWalkingSound : MonoBehaviour
+    public class IL3DnChangeWalkingSound : MonoBehaviour
     {
         public AudioClip[] footStepsOverride;
         public AudioClip jumpSound;

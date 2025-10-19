@@ -118,17 +118,15 @@ public class HealthManager : MonoBehaviour, IHealthManager
 
     private void OnDeath()
     {
-        if (currentHealth >= 0)
-        {
-            isDead = true;
-        }
+        if (currentHealth >= 0) isDead = true;
     }
 
     private void ShakeCamera()
     {
-        if (_playerController)
-            if (_cameraShake)
-                _cameraShake.enabled = invincibilityFramesCur > 0;
+        if (!_playerController) return;
+        
+        if (_cameraShake)
+            _cameraShake.enabled = invincibilityFramesCur > 0;
     }
 
     private void TakenDamageVisualFeedback()

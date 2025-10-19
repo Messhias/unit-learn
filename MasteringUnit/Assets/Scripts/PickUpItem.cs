@@ -28,13 +28,13 @@ public class PickUpItem : MonoBehaviour, IPickUpItem
     public void OnPickedUp(GameObject whoPickedUp)
     {
         SpawnedSoundFX.Spawn(transform.position);
-        
+
         if (GetComponent<Weapon>() is WeaponBase weapon)
         {
             IPlayerController player = whoPickedUp.GetComponent<PlayerController>();
 
             if (player == null) return;
-            
+
             // player has picked up a weapon
             player.EquipWeapon(weapon);
 

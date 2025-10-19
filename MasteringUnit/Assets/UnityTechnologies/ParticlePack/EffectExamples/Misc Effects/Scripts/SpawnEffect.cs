@@ -1,46 +1,42 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class SpawnEffect : MonoBehaviour {
-
+public class SpawnEffect : MonoBehaviour
+{
     public float spawnEffectTime = 2;
     public float pause = 1;
     public AnimationCurve fadeIn;
 
-    ParticleSystem ps;
-    float timer = 0;
-    Renderer _renderer;
+    private ParticleSystem _ps;
+    private Renderer _renderer;
 
-    int shaderProperty;
+    private int _shaderProperty;
+    private float _timer;
 
-	void Start ()
+    private void Start()
     {
-        shaderProperty = Shader.PropertyToID("_cutoff");
+        _shaderProperty = Shader.PropertyToID("_cutoff");
         _renderer = GetComponent<Renderer>();
-        ps = GetComponentInChildren <ParticleSystem>();
+        _ps = GetComponentInChildren<ParticleSystem>();
 
-        var main = ps.main;
+        var main = _ps.main;
         main.duration = spawnEffectTime;
 
-        ps.Play();
-
+        _ps.Play();
     }
-	
-	void Update ()
+
+    private void Update()
     {
-        if (timer < spawnEffectTime + pause)
+        if (_timer < spawnEffectTime + pause)
         {
-            timer += Time.deltaTime;
+            _timer += Time.deltaTime;
         }
         else
         {
-            ps.Play();
-            timer = 0;
+            _ps.Play();
+            _timer = 0;
         }
 
 
-        _renderer.material.SetFloat(shaderProperty, fadeIn.Evaluate( Mathf.InverseLerp(0, spawnEffectTime, timer)));
-        
+        _renderer.material.SetFloat(_shaderProperty, fadeIn.Evaluate(Mathf.InverseLerp(0, spawnEffectTime, _timer)));
     }
 }

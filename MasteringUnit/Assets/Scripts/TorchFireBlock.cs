@@ -1,19 +1,18 @@
-using System;
 using UnityEngine;
 
 public class TorchFireBlock : MonoBehaviour
 {
-    [SerializeField, Tooltip("Seconds until fire goes out.")]
-    private float fireTimer = 0;
+    private static int _sNumLitBlocks;
 
-    [SerializeField, Tooltip("Seconds applied when re-lit.")]
+    [SerializeField] [Tooltip("Seconds until fire goes out.")]
+    private float fireTimer;
+
+    [SerializeField] [Tooltip("Seconds applied when re-lit.")]
     private float maxTimer = 15;
-    
-    [SerializeField, Tooltip("The fire particle effect.")]
+
+    [SerializeField] [Tooltip("The fire particle effect.")]
     private ParticleSystem fireParticle;
 
-    private static int _sNumLitBlocks = 0;
-    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
     {
@@ -26,9 +25,9 @@ public class TorchFireBlock : MonoBehaviour
     {
         if (!(fireTimer > 0)) return;
         fireTimer -= Time.deltaTime;
-        
+
         if (!(fireTimer < 0)) return;
-        
+
         // fire has gone out
         AdjustFireBlockCount(-1);
         EnableFireEffects(false);
@@ -61,15 +60,11 @@ public class TorchFireBlock : MonoBehaviour
 
     private void EnableSceneLights(bool status)
     {
-        Light[] lights = FindObjectsByType<Light>(FindObjectsSortMode.None);
-        
+        var lights = FindObjectsByType<Light>(FindObjectsSortMode.None);
+
         foreach (var l in lights)
-        {
             if (l.type == LightType.Directional)
-            {
                 l.enabled = status;
-            }
-        }
     }
 
     private void AdjustFireBlockCount(int counter)
@@ -78,12 +73,12 @@ public class TorchFireBlock : MonoBehaviour
         // blocks in the scene.
 
         _sNumLitBlocks += counter;
-        
+
         // enable or disable the lights based on 
         // the number of lit of blocks.
 
-        bool lightStatus = !(_sNumLitBlocks <= 0);
-        
+        var lightStatus = !(_sNumLitBlocks <= 0);
+
         EnableSceneLights(lightStatus);
     }
 }
