@@ -33,7 +33,7 @@ public class Weapon : WeaponBase
     private void FireArmAttack(Vector3 facing)
     {
         if (bulletToSpawn is not { } bulletTo) return;
-            
+
         var newBullet = Instantiate(
             bulletTo,
             transform.position,

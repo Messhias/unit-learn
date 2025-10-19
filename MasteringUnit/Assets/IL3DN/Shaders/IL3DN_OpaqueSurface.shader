@@ -2,41 +2,43 @@
 // Available at the Unity Asset Store - http://u3d.as/y3X 
 Shader "IL3DN/OpaqueSurface"
 {
-	Properties
-	{
-		_Color("Color", Color) = (1,1,1,1)
-		_MainTex("MainTex", 2D) = "white" {}
-		[HideInInspector] _texcoord( "", 2D ) = "white" {}
-		[HideInInspector] __dirty( "", Int ) = 1
-	}
+    Properties
+    {
+        _Color("Color", Color) = (1,1,1,1)
+        _MainTex("MainTex", 2D) = "white" {}
+        [HideInInspector] _texcoord( "", 2D ) = "white" {}
+        [HideInInspector] __dirty( "", Int ) = 1
+    }
 
-	SubShader
-	{
-		Tags{ "RenderType" = "Opaque"  "Queue" = "Geometry+0" }
-		Cull Back
-		CGPROGRAM
-		#pragma target 3.0
-		#pragma surface surf Standard keepalpha addshadow fullforwardshadows dithercrossfade 
-		struct Input
-		{
-			float2 uv_texcoord;
-		};
+    SubShader
+    {
+        Tags
+        {
+            "RenderType" = "Opaque" "Queue" = "Geometry+0"
+        }
+        Cull Back
+        CGPROGRAM
+        #pragma target 3.0
+        #pragma surface surf Standard keepalpha addshadow fullforwardshadows dithercrossfade
+        struct Input
+        {
+            float2 uv_texcoord;
+        };
 
-		uniform float4 _Color;
-		uniform sampler2D _MainTex;
-		uniform float4 _MainTex_ST;
+        uniform float4 _Color;
+        uniform sampler2D _MainTex;
+        uniform float4 _MainTex_ST;
 
-		void surf( Input i , inout SurfaceOutputStandard o )
-		{
-			float2 uv_MainTex = i.uv_texcoord * _MainTex_ST.xy + _MainTex_ST.zw;
-			o.Albedo = saturate( ( _Color * tex2D( _MainTex, uv_MainTex ) ) ).rgb;
-			o.Alpha = 1;
-		}
-
-		ENDCG
-	}
-	Fallback "Diffuse"
-	CustomEditor "ASEMaterialInspector"
+        void surf(Input i, inout SurfaceOutputStandard o)
+        {
+            float2 uv_MainTex = i.uv_texcoord * _MainTex_ST.xy + _MainTex_ST.zw;
+            o.Albedo = saturate((_Color * tex2D(_MainTex, uv_MainTex))).rgb;
+            o.Alpha = 1;
+        }
+        ENDCG
+    }
+    Fallback "Diffuse"
+    CustomEditor "ASEMaterialInspector"
 }
 /*ASEBEGIN
 Version=17009

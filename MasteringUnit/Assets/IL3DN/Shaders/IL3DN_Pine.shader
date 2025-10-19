@@ -2,86 +2,94 @@
 // Available at the Unity Asset Store - http://u3d.as/y3X 
 Shader "IL3DN/Pine"
 {
-	Properties
-	{
-		_Color("Color", Color) = (1,1,1,1)
-		_AlphaCutoff("Alpha Cutoff", Range( 0 , 1)) = 0.5
-		_MainTex("MainTex", 2D) = "white" {}
-		[NoScaleOffset]NoiseTextureFloat("NoiseTexture", 2D) = "white" {}
-		[Toggle(_WIND_ON)] _Wind("Wind", Float) = 1
-		_WindStrenght("Wind Strenght", Range( 0 , 1)) = 0.5
-		[Toggle(_WIGGLE_ON)] _Wiggle("Wiggle", Float) = 1
-		_WiggleStrenght("Wiggle Strenght", Range( 0 , 1)) = 0.5
-		[HideInInspector] _texcoord( "", 2D ) = "white" {}
-		[HideInInspector] __dirty( "", Int ) = 1
-	}
+    Properties
+    {
+        _Color("Color", Color) = (1,1,1,1)
+        _AlphaCutoff("Alpha Cutoff", Range( 0 , 1)) = 0.5
+        _MainTex("MainTex", 2D) = "white" {}
+        [NoScaleOffset]NoiseTextureFloat("NoiseTexture", 2D) = "white" {}
+        [Toggle(_WIND_ON)] _Wind("Wind", Float) = 1
+        _WindStrenght("Wind Strenght", Range( 0 , 1)) = 0.5
+        [Toggle(_WIGGLE_ON)] _Wiggle("Wiggle", Float) = 1
+        _WiggleStrenght("Wiggle Strenght", Range( 0 , 1)) = 0.5
+        [HideInInspector] _texcoord( "", 2D ) = "white" {}
+        [HideInInspector] __dirty( "", Int ) = 1
+    }
 
-	SubShader
-	{
-		Tags{ "RenderType" = "TransparentCutout"  "Queue" = "AlphaTest+0" }
-		Cull Off
-		CGPROGRAM
-		#include "UnityShaderVariables.cginc"
-		#pragma target 3.0
-		#pragma multi_compile_instancing
-		#pragma multi_compile __ _WIND_ON
-		#pragma multi_compile __ _WIGGLE_ON
-		#pragma exclude_renderers vulkan xbox360 psp2 n3ds wiiu 
-		#pragma surface surf Lambert keepalpha addshadow fullforwardshadows nolightmap  nodirlightmap dithercrossfade vertex:vertexDataFunc 
-		struct Input
-		{
-			float3 worldPos;
-			float2 uv_texcoord;
-			float4 vertexColor : COLOR;
-		};
+    SubShader
+    {
+        Tags
+        {
+            "RenderType" = "TransparentCutout" "Queue" = "AlphaTest+0"
+        }
+        Cull Off
+        CGPROGRAM
+        #include "UnityShaderVariables.cginc"
+        #pragma target 3.0
+        #pragma multi_compile_instancing
+        #pragma multi_compile __ _WIND_ON
+        #pragma multi_compile __ _WIGGLE_ON
+        #pragma exclude_renderers vulkan xbox360 psp2 n3ds wiiu
+        #pragma surface surf Lambert keepalpha addshadow fullforwardshadows nolightmap  nodirlightmap dithercrossfade vertex:vertexDataFunc
+        struct Input
+        {
+            float3 worldPos;
+            float2 uv_texcoord;
+            float4 vertexColor : COLOR;
+        };
 
-		uniform float3 WindDirection;
-		uniform sampler2D NoiseTextureFloat;
-		uniform float _WindStrenght;
-		uniform float4 _Color;
-		uniform sampler2D _MainTex;
-		uniform float _WiggleStrenght;
-		uniform float _AlphaCutoff;
+        uniform float3 WindDirection;
+        uniform sampler2D NoiseTextureFloat;
+        uniform float _WindStrenght;
+        uniform float4 _Color;
+        uniform sampler2D _MainTex;
+        uniform float _WiggleStrenght;
+        uniform float _AlphaCutoff;
 
-		void vertexDataFunc( inout appdata_full v, out Input o )
-		{
-			UNITY_INITIALIZE_OUTPUT( Input, o );
-			float3 temp_output_952_0 = float3( (WindDirection).xz ,  0.0 );
-			float3 ase_worldPos = mul( unity_ObjectToWorld, v.vertex );
-			float2 panner956 = ( 1.0 * _Time.y * ( temp_output_952_0 * 0.4 * 10.0 ).xy + (ase_worldPos).xy);
-			float4 worldNoise905 = ( tex2Dlod( NoiseTextureFloat, float4( ( ( panner956 * 0.1 ) / float2( 10,10 ) ), 0, 0.0) ) * _WindStrenght * 0.8 );
-			float4 transform886 = mul(unity_WorldToObject,( float4( WindDirection , 0.0 ) * ( ( v.color.a * worldNoise905 ) + ( worldNoise905 * v.color.g ) ) ));
-			#ifdef _WIND_ON
-				float4 staticSwitch897 = transform886;
-			#else
-				float4 staticSwitch897 = float4( 0,0,0,0 );
-			#endif
-			v.vertex.xyz += staticSwitch897.xyz;
-		}
+        void vertexDataFunc(inout appdata_full v, out Input o)
+        {
+                UNITY_INITIALIZE_OUTPUT(Input, o);
+            float3 temp_output_952_0 = float3((WindDirection).xz, 0.0);
+            float3 ase_worldPos = mul(unity_ObjectToWorld, v.vertex);
+            float2 panner956 = (1.0 * _Time.y * (temp_output_952_0 * 0.4 * 10.0).xy + (ase_worldPos).xy);
+            float4 worldNoise905 = (tex2Dlod(NoiseTextureFloat, float4(((panner956 * 0.1) / float2(10, 10)), 0, 0.0)) *
+                _WindStrenght * 0.8);
+            float4 transform886 = mul(unity_WorldToObject,
+             (float4(WindDirection, 0.0) * ((v.color.a * worldNoise905) + (worldNoise905 * v.color.g))));
+            #ifdef _WIND_ON
+            float4 staticSwitch897 = transform886;
+            #else
+            float4 staticSwitch897 = float4(0, 0, 0, 0);
+            #endif
+            v.vertex.xyz += staticSwitch897.xyz;
+        }
 
-		void surf( Input i , inout SurfaceOutput o )
-		{
-			float3 temp_output_952_0 = float3( (WindDirection).xz ,  0.0 );
-			float3 ase_worldPos = i.worldPos;
-			float2 panner956 = ( 1.0 * _Time.y * ( temp_output_952_0 * 0.4 * 10.0 ).xy + (ase_worldPos).xy);
-			float4 worldNoise905 = ( tex2D( NoiseTextureFloat, ( ( panner956 * 0.1 ) / float2( 10,10 ) ) ) * _WindStrenght * 0.8 );
-			float cos745 = cos( ( ( tex2D( NoiseTextureFloat, worldNoise905.rg ) * i.vertexColor.g ) * 1.0 * _WiggleStrenght ).r );
-			float sin745 = sin( ( ( tex2D( NoiseTextureFloat, worldNoise905.rg ) * i.vertexColor.g ) * 1.0 * _WiggleStrenght ).r );
-			float2 rotator745 = mul( i.uv_texcoord - float2( 0.25,0.25 ) , float2x2( cos745 , -sin745 , sin745 , cos745 )) + float2( 0.25,0.25 );
-			#ifdef _WIGGLE_ON
-				float2 staticSwitch898 = rotator745;
-			#else
-				float2 staticSwitch898 = i.uv_texcoord;
-			#endif
-			float4 tex2DNode97 = tex2D( _MainTex, staticSwitch898 );
-			o.Albedo = saturate( ( _Color * tex2DNode97 ) ).rgb;
-			o.Alpha = 1;
-			clip( tex2DNode97.a - _AlphaCutoff );
-		}
-
-		ENDCG
-	}
-	Fallback "Diffuse"
+        void surf(Input i, inout SurfaceOutput o)
+        {
+            float3 temp_output_952_0 = float3((WindDirection).xz, 0.0);
+            float3 ase_worldPos = i.worldPos;
+            float2 panner956 = (1.0 * _Time.y * (temp_output_952_0 * 0.4 * 10.0).xy + (ase_worldPos).xy);
+            float4 worldNoise905 = (tex2D(NoiseTextureFloat, ((panner956 * 0.1) / float2(10, 10))) * _WindStrenght *
+                0.8);
+            float cos745 = cos(
+                ((tex2D(NoiseTextureFloat, worldNoise905.rg) * i.vertexColor.g) * 1.0 * _WiggleStrenght).r);
+            float sin745 = sin(
+                ((tex2D(NoiseTextureFloat, worldNoise905.rg) * i.vertexColor.g) * 1.0 * _WiggleStrenght).r);
+            float2 rotator745 = mul(i.uv_texcoord - float2(0.25, 0.25), float2x2(cos745, -sin745, sin745, cos745)) +
+                float2(0.25, 0.25);
+            #ifdef _WIGGLE_ON
+            float2 staticSwitch898 = rotator745;
+            #else
+            float2 staticSwitch898 = i.uv_texcoord;
+            #endif
+            float4 tex2DNode97 = tex2D(_MainTex, staticSwitch898);
+            o.Albedo = saturate((_Color * tex2DNode97)).rgb;
+            o.Alpha = 1;
+            clip(tex2DNode97.a - _AlphaCutoff);
+        }
+        ENDCG
+    }
+    Fallback "Diffuse"
 }
 /*ASEBEGIN
 Version=17009

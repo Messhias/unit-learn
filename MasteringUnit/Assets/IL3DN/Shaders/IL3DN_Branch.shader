@@ -2,67 +2,72 @@
 // Available at the Unity Asset Store - http://u3d.as/y3X 
 Shader "IL3DN/Branch"
 {
-	Properties
-	{
-		_Color("Color", Color) = (1,1,1,1)
-		_MainTex("MainTex", 2D) = "white" {}
-		[NoScaleOffset]NoiseTextureFloat("NoiseTexture", 2D) = "white" {}
-		[Toggle(_WIND_ON)] _Wind("Wind", Float) = 1
-		_WindStrenght("Wind Strenght", Range( 0 , 1)) = 0.5
-		[HideInInspector] _texcoord( "", 2D ) = "white" {}
-		[HideInInspector] __dirty( "", Int ) = 1
-	}
+    Properties
+    {
+        _Color("Color", Color) = (1,1,1,1)
+        _MainTex("MainTex", 2D) = "white" {}
+        [NoScaleOffset]NoiseTextureFloat("NoiseTexture", 2D) = "white" {}
+        [Toggle(_WIND_ON)] _Wind("Wind", Float) = 1
+        _WindStrenght("Wind Strenght", Range( 0 , 1)) = 0.5
+        [HideInInspector] _texcoord( "", 2D ) = "white" {}
+        [HideInInspector] __dirty( "", Int ) = 1
+    }
 
-	SubShader
-	{
-		Tags{ "RenderType" = "Opaque"  "Queue" = "Geometry+0" }
-		Cull Back
-		CGPROGRAM
-		#include "UnityShaderVariables.cginc"
-		#pragma target 3.0
-		#pragma multi_compile_instancing
-		#pragma multi_compile __ _WIND_ON
-		#pragma exclude_renderers vulkan xbox360 psp2 n3ds wiiu 
-		#pragma surface surf Lambert keepalpha addshadow fullforwardshadows nolightmap  nodirlightmap dithercrossfade vertex:vertexDataFunc 
-		struct Input
-		{
-			float3 worldPos;
-			float2 uv_texcoord;
-		};
+    SubShader
+    {
+        Tags
+        {
+            "RenderType" = "Opaque" "Queue" = "Geometry+0"
+        }
+        Cull Back
+        CGPROGRAM
+        #include "UnityShaderVariables.cginc"
+        #pragma target 3.0
+        #pragma multi_compile_instancing
+        #pragma multi_compile __ _WIND_ON
+        #pragma exclude_renderers vulkan xbox360 psp2 n3ds wiiu
+        #pragma surface surf Lambert keepalpha addshadow fullforwardshadows nolightmap  nodirlightmap dithercrossfade vertex:vertexDataFunc
+        struct Input
+        {
+            float3 worldPos;
+            float2 uv_texcoord;
+        };
 
-		uniform float3 WindDirection;
-		uniform sampler2D NoiseTextureFloat;
-		uniform float _WindStrenght;
-		uniform float4 _Color;
-		uniform sampler2D _MainTex;
-		uniform float4 _MainTex_ST;
+        uniform float3 WindDirection;
+        uniform sampler2D NoiseTextureFloat;
+        uniform float _WindStrenght;
+        uniform float4 _Color;
+        uniform sampler2D _MainTex;
+        uniform float4 _MainTex_ST;
 
-		void vertexDataFunc( inout appdata_full v, out Input o )
-		{
-			UNITY_INITIALIZE_OUTPUT( Input, o );
-			float3 temp_output_932_0 = float3( (WindDirection).xz ,  0.0 );
-			float3 ase_worldPos = mul( unity_ObjectToWorld, v.vertex );
-			float2 panner936 = ( 1.0 * _Time.y * ( temp_output_932_0 * 0.4 * 10.0 ).xy + (ase_worldPos).xy);
-			float4 worldNoise917 = ( tex2Dlod( NoiseTextureFloat, float4( ( ( panner936 * 0.1 ) / float2( 10,10 ) ), 0, 0.0) ) * _WindStrenght * 0.8 );
-			float4 transform913 = mul(unity_WorldToObject,( float4( WindDirection , 0.0 ) * ( ( v.color.a * worldNoise917 ) + ( worldNoise917 * v.color.g ) ) ));
-			#ifdef _WIND_ON
-				float4 staticSwitch915 = transform913;
-			#else
-				float4 staticSwitch915 = float4( 0,0,0,0 );
-			#endif
-			v.vertex.xyz += staticSwitch915.xyz;
-		}
+        void vertexDataFunc(inout appdata_full v, out Input o)
+        {
+                UNITY_INITIALIZE_OUTPUT(Input, o);
+            float3 temp_output_932_0 = float3((WindDirection).xz, 0.0);
+            float3 ase_worldPos = mul(unity_ObjectToWorld, v.vertex);
+            float2 panner936 = (1.0 * _Time.y * (temp_output_932_0 * 0.4 * 10.0).xy + (ase_worldPos).xy);
+            float4 worldNoise917 = (tex2Dlod(NoiseTextureFloat, float4(((panner936 * 0.1) / float2(10, 10)), 0, 0.0)) *
+                _WindStrenght * 0.8);
+            float4 transform913 = mul(unity_WorldToObject,
+                                      (float4(WindDirection, 0.0) * ((v.color.a * worldNoise917) + (worldNoise917 * v.
+              color.g))));
+            #ifdef _WIND_ON
+            float4 staticSwitch915 = transform913;
+            #else
+            float4 staticSwitch915 = float4(0, 0, 0, 0);
+            #endif
+            v.vertex.xyz += staticSwitch915.xyz;
+        }
 
-		void surf( Input i , inout SurfaceOutput o )
-		{
-			float2 uv_MainTex = i.uv_texcoord * _MainTex_ST.xy + _MainTex_ST.zw;
-			o.Albedo = saturate( ( _Color * tex2D( _MainTex, uv_MainTex ) ) ).rgb;
-			o.Alpha = 1;
-		}
-
-		ENDCG
-	}
-	Fallback "Diffuse"
+        void surf(Input i, inout SurfaceOutput o)
+        {
+            float2 uv_MainTex = i.uv_texcoord * _MainTex_ST.xy + _MainTex_ST.zw;
+            o.Albedo = saturate((_Color * tex2D(_MainTex, uv_MainTex))).rgb;
+            o.Alpha = 1;
+        }
+        ENDCG
+    }
+    Fallback "Diffuse"
 }
 /*ASEBEGIN
 Version=17009

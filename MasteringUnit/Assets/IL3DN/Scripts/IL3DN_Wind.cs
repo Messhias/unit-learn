@@ -1,20 +1,18 @@
+using UnityEngine;
+
 namespace IL3DN
 {
-    using UnityEngine;
     [ExecuteInEditMode]
-
     public class IL3DnWind : MonoBehaviour
     {
         private readonly float _windGizmo = 0.5f;
 
-        void Update()
+        private void Update()
         {
-
             Shader.SetGlobalVector("WindDirection", transform.rotation * Vector3.back);
-
         }
 
-        void OnDrawGizmos()
+        private void OnDrawGizmos()
         {
             var dir = (transform.position + transform.forward).normalized;
 
@@ -46,7 +44,6 @@ namespace IL3DN
             Gizmos.DrawLine(end, end - front + side * s);
             Gizmos.DrawLine(end, end - front - side * s);
             Gizmos.DrawLine(end, end - front * 2);
-
         }
     }
 }

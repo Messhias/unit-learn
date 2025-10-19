@@ -1,11 +1,11 @@
-﻿using UnityEngine.Serialization;
+﻿using System;
+using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace IL3DN
 {
-    using System;
-    using UnityEngine;
     /// <summary>
-    /// Class provided by Standard  Assets
+    ///     Class provided by Standard  Assets
     /// </summary>
     [Serializable]
     public class IL3DnSimpleMouseLook
@@ -18,9 +18,9 @@ namespace IL3DN
         public bool smooth;
         public float smoothTime = 5f;
         public bool lockCursor = true;
+        private Quaternion _mCameraTargetRot;
 
         private Quaternion _mCharacterTargetRot;
-        private Quaternion _mCameraTargetRot;
         private bool _mCursorIsLocked = true;
 
         public void Init(Transform character, Transform camera)
@@ -60,7 +60,8 @@ namespace IL3DN
         {
             lockCursor = value;
             if (!lockCursor)
-            {//we force unlock the cursor if the user disable the cursor locking helper
+            {
+                //we force unlock the cursor if the user disable the cursor locking helper
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
             }
@@ -76,13 +77,8 @@ namespace IL3DN
         private void InternalLockUpdate()
         {
             if (Input.GetKeyUp(KeyCode.Escape))
-            {
                 _mCursorIsLocked = false;
-            }
-            else if (Input.GetMouseButtonUp(0))
-            {
-                _mCursorIsLocked = true;
-            }
+            else if (Input.GetMouseButtonUp(0)) _mCursorIsLocked = true;
 
             if (_mCursorIsLocked)
             {
@@ -96,7 +92,7 @@ namespace IL3DN
             }
         }
 
-        Quaternion ClampRotationAroundXAxis(Quaternion q)
+        private Quaternion ClampRotationAroundXAxis(Quaternion q)
         {
             q.x /= q.w;
             q.y /= q.w;
@@ -110,4 +106,3 @@ namespace IL3DN
         }
     }
 }
-

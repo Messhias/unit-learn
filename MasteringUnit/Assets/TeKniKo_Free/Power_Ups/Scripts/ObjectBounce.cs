@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ObjectBounce : MonoBehaviour
@@ -12,14 +10,14 @@ public class ObjectBounce : MonoBehaviour
     private float _timeOffset;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         _startHeight = transform.localPosition.y;
         _timeOffset = Random.value * Mathf.PI * 2;
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         //animate
         var finalheight = _startHeight + Mathf.Sin(Time.time * bounceSpeed + _timeOffset) * bounceAmplitude;
@@ -31,6 +29,5 @@ public class ObjectBounce : MonoBehaviour
         var rotation = transform.localRotation.eulerAngles;
         rotation.y += rotationSpeed * Time.deltaTime;
         transform.localRotation = Quaternion.Euler(rotation.x, rotation.y, rotation.z);
-        
     }
 }

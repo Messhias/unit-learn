@@ -6,21 +6,6 @@ using UnityEngine.Serialization;
 
 public class Bullet : MonoBehaviour, IBullet
 {
-    #region *** private properties ***
-
-    [FormerlySerializedAs("_direction")] [SerializeField] [Tooltip("Normalized direction of this bullet.")]
-    private Vector3 direction = Vector3.zero;
-    
-    [FormerlySerializedAs("_speed")] [SerializeField, Tooltip("Bullet speed")]
-    private float speed = 400.0f;
-
-    private readonly IReadOnlyCollection<string> _canDestroy = new[]
-    {
-        "EnemyObj_Spikes"
-    };
-
-    #endregion
-
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
     {
@@ -74,4 +59,19 @@ public class Bullet : MonoBehaviour, IBullet
 
         transform.LookAt(transform.position + this.direction);
     }
+
+    #region *** private properties ***
+
+    [FormerlySerializedAs("_direction")] [SerializeField] [Tooltip("Normalized direction of this bullet.")]
+    private Vector3 direction = Vector3.zero;
+
+    [FormerlySerializedAs("_speed")] [SerializeField] [Tooltip("Bullet speed")]
+    private float speed = 400.0f;
+
+    private readonly IReadOnlyCollection<string> _canDestroy = new[]
+    {
+        "EnemyObj_Spikes"
+    };
+
+    #endregion
 }

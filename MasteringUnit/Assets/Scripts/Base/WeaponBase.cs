@@ -12,25 +12,6 @@ namespace Base
 {
     public abstract class WeaponBase : MonoBehaviour, IWeapon
     {
-        
-        #region Editor Fields
-        
-        public AudioClip attackAudioClip;
-
-        [FormerlySerializedAs("_attackAnimation")] [SerializeField, Tooltip("Animation to play when attacking")]
-        private string attackAnimation = "SwingSowrd_01";
-
-        [SerializeField, Tooltip("Identify the weapon type it is")]
-        protected WeaponType weaponType;
-
-        #endregion
-        
-        public string AttackAnimation
-        {
-            get => attackAnimation;
-            set => attackAnimation = value;
-        }
-
         #region *** Protected Properties ***
 
         protected float PauseMovementMax
@@ -51,12 +32,8 @@ namespace Base
         // Métodos que podem ser compartilhados
         private void Update()
         {
-            if (PauseMovementTimer > 0f)
-            {
-                PauseMovementTimer -= Time.deltaTime;
-                // return;
-            }
-
+            if (PauseMovementTimer > 0f) PauseMovementTimer -= Time.deltaTime;
+            // return;
             if (!_attachmentParent) return;
 
 
@@ -79,6 +56,12 @@ namespace Base
             }
         }
 
+        public string AttackAnimation
+        {
+            get => attackAnimation;
+            set => attackAnimation = value;
+        }
+
         public void SetAttachmentParent(GameObject attachment)
         {
             _attachmentParent = attachment;
@@ -95,6 +78,18 @@ namespace Base
         {
             Rigidbody.constraints = InitialConstraints;
         }
+
+        #region Editor Fields
+
+        public AudioClip attackAudioClip;
+
+        [FormerlySerializedAs("_attackAnimation")] [SerializeField] [Tooltip("Animation to play when attacking")]
+        private string attackAnimation = "SwingSowrd_01";
+
+        [SerializeField] [Tooltip("Identify the weapon type it is")]
+        protected WeaponType weaponType;
+
+        #endregion
 
         #region *** Editor config ***
 

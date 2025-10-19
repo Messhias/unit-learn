@@ -5,30 +5,6 @@ using UnityEngine.Serialization;
 
 public class HealthModifier : MonoBehaviour
 {
-    private enum DamageTarget
-    {
-        Enemies,
-        Player,
-        All,
-        None
-    }
-
-    #region *** Editor ***
-
-    [FormerlySerializedAs("_knockbackForce")] [SerializeField] [Tooltip("Knockback force when this damage is applied.")]
-    private float knockbackForce;
-
-    [FormerlySerializedAs("_healthChange")] [SerializeField] [Tooltip("The class of object that should be damaged.")]
-    private float healthChange;
-
-    [FormerlySerializedAs("_applyToTarget")] [SerializeField] [Tooltip("The class of object that should be damaged.")]
-    private DamageTarget applyToTarget = DamageTarget.Player;
-
-    [FormerlySerializedAs("_destroyOnCollision")] [SerializeField] [Tooltip("Should object self-destruct on collision?")]
-    private bool destroyOnCollision;
-
-    #endregion
-    
     #region *** private ***
 
     private readonly IReadOnlyCollection<string> _cantKnockIn = new[]
@@ -41,16 +17,6 @@ public class HealthModifier : MonoBehaviour
     };
 
     #endregion
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    private void Start()
-    {
-    }
-
-    // Update is called once per frame
-    private void Update()
-    {
-    }
 
     private void OnCollisionStay(Collision other)
     {
@@ -107,4 +73,30 @@ public class HealthModifier : MonoBehaviour
                 return false;
         }
     }
+
+    private enum DamageTarget
+    {
+        Enemies,
+        Player,
+        All,
+        None
+    }
+
+    #region *** Editor ***
+
+    [FormerlySerializedAs("_knockbackForce")] [SerializeField] [Tooltip("Knockback force when this damage is applied.")]
+    private float knockbackForce;
+
+    [FormerlySerializedAs("_healthChange")] [SerializeField] [Tooltip("The class of object that should be damaged.")]
+    private float healthChange;
+
+    [FormerlySerializedAs("_applyToTarget")] [SerializeField] [Tooltip("The class of object that should be damaged.")]
+    private DamageTarget applyToTarget = DamageTarget.Player;
+
+    [FormerlySerializedAs("_destroyOnCollision")]
+    [SerializeField]
+    [Tooltip("Should object self-destruct on collision?")]
+    private bool destroyOnCollision;
+
+    #endregion
 }

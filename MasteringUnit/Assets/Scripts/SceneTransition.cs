@@ -5,32 +5,32 @@ using UnityEngine.Serialization;
 
 public class SceneTransition : MonoBehaviour
 {
+    public static SceneTransition Instance;
+
     // the top and bottom objects to animate.
     [FormerlySerializedAs("TopObject")] public Transform topObject;
     [FormerlySerializedAs("BottomObject")] public Transform bottomObject;
-    private Vector2 _endTop, _endBottom;
-    
+
     // wait a half second before unhiding.
     [FormerlySerializedAs("CurrentTime")] public float currentTime = -0.5f;
-    
+
+    // data for loading a scene post-transition
+    [FormerlySerializedAs("LoadSecene")] public bool loadSecene;
+    [FormerlySerializedAs("SceneToLoad")] public string sceneToLoad = "";
+
     // by default, transitions take 1 second
     private readonly float _endTime = 1f;
-    
-    // data for loading a scene post-transition
-    [FormerlySerializedAs("LoadSecene")] public bool loadSecene = false;
-    [FormerlySerializedAs("SceneToLoad")] public string sceneToLoad = "";
-    
-    public static SceneTransition Instance;
+    private Vector2 _endTop, _endBottom;
 
     private void Awake()
     {
         // make sure transition objects are visible
         topObject.gameObject.SetActive(true);
         bottomObject.gameObject.SetActive(true);
-        
+
         // store the single instance of the transition object in this scene
         Instance = this;
-        
+
         // calculate final transition positions
         var offset = Screen.height * 0.75f;
         _endTop = new Vector2(0, offset);
@@ -42,19 +42,13 @@ public class SceneTransition : MonoBehaviour
         currentTime += Time.fixedDeltaTime;
 
         // buffer before transition starts.
-        if (currentTime <0)
-        {
-            return;
-        }
+        if (currentTime < 0) return;
 
         // reached the end of the transition
         // is it time to load the next scene?
         if (currentTime > _endTime)
         {
-            if (!string.IsNullOrEmpty(sceneToLoad))
-            {
-                SceneManager.LoadScene(sceneToLoad);
-            }
+            if (!string.IsNullOrEmpty(sceneToLoad)) SceneManager.LoadScene(sceneToLoad);
 
             return;
         }

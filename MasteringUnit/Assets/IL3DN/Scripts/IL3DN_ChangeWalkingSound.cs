@@ -1,9 +1,10 @@
+using UnityEngine;
+
 namespace IL3DN
 {
-    using UnityEngine;
     /// <summary>
-    /// Override player sound when walking in different environments
-    /// Attach this to a trigger
+    ///     Override player sound when walking in different environments
+    ///     Attach this to a trigger
     /// </summary>
     public class IL3DnChangeWalkingSound : MonoBehaviour
     {

@@ -1,53 +1,42 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System;
 using TMPro;
+using UnityEngine;
 
-
-public class AdjustTimeScale : MonoBehaviour
+namespace UnityTechnologies.ParticlePack.Shared.Scripts
 {
-    TextMeshProUGUI _textMesh;
-
-    private void Start()
+    public class AdjustTimeScale : MonoBehaviour
     {
-        _textMesh = GetComponent<TextMeshProUGUI>();
-    }
+        private TextMeshProUGUI _textMesh;
 
-    void Update()
-    {
-        if (Input.GetAxis("Mouse ScrollWheel") > 0f)
+        private void Start()
         {
-            if (Time.timeScale < 1.0F)
-            {
-                Time.timeScale += 0.1f;
-            }
-               
-            Time.fixedDeltaTime = 0.02F * Time.timeScale;
-
-            if (_textMesh != null)
-            {
-                _textMesh.text = "Time Scale : " + System.Math.Round(Time.timeScale, 2);
-            }
-          
+            _textMesh = GetComponent<TextMeshProUGUI>();
         }
-        else if (Input.GetAxis("Mouse ScrollWheel") < 0f)
-        {
-            if (Time.timeScale >= 0.2F)
-            {
-                Time.timeScale -= 0.1f;
-            }
-                
-            Time.fixedDeltaTime = 0.02F * Time.timeScale;
 
-            if (_textMesh != null)
+        private void Update()
+        {
+            if (Input.GetAxis("Mouse ScrollWheel") > 0f)
             {
-                _textMesh.text = "Time Scale : " + System.Math.Round(Time.timeScale, 2);
+                if (Time.timeScale < 1.0F) Time.timeScale += 0.1f;
+
+                Time.fixedDeltaTime = 0.02F * Time.timeScale;
+
+                if (_textMesh != null) _textMesh.text = "Time Scale : " + Math.Round(Time.timeScale, 2);
+            }
+            else if (Input.GetAxis("Mouse ScrollWheel") < 0f)
+            {
+                if (Time.timeScale >= 0.2F) Time.timeScale -= 0.1f;
+
+                Time.fixedDeltaTime = 0.02F * Time.timeScale;
+
+                if (_textMesh != null) _textMesh.text = "Time Scale : " + Math.Round(Time.timeScale, 2);
             }
         }
-    }
 
-    void OnApplicationQuit()
-    {
-        Time.timeScale = 1.0F;
-        Time.fixedDeltaTime = 0.02F;
+        private void OnApplicationQuit()
+        {
+            Time.timeScale = 1.0F;
+            Time.fixedDeltaTime = 0.02F;
+        }
     }
 }
