@@ -5,12 +5,12 @@ public class SpawnedSoundFX : MonoBehaviour
 {
     public AudioSource audioSource;
 
-    private static readonly string _prefabPath = "Prefabs/SpawnedSoundFX";
+    private static readonly string PrefabPath = "Prefabs/SpawnedSoundFX";
 
     public static void Spawn(Vector3 position, [CanBeNull] AudioClip clip = null)
     {
         // spawn soundFX object
-        var prefab = Resources.Load<GameObject>(_prefabPath);
+        var prefab = Resources.Load<GameObject>(PrefabPath);
         var newObject = Instantiate(prefab, position, Quaternion.identity);
         
         // add randomness to pitch

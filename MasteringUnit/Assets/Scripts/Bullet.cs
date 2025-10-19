@@ -2,16 +2,17 @@ using System.Collections.Generic;
 using System.Linq;
 using Contracts;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Bullet : MonoBehaviour, IBullet
 {
     #region *** private properties ***
 
-    [SerializeField] [Tooltip("Normalized direction of this bullet.")]
-    private Vector3 _direction = Vector3.zero;
+    [FormerlySerializedAs("_direction")] [SerializeField] [Tooltip("Normalized direction of this bullet.")]
+    private Vector3 direction = Vector3.zero;
     
-    [SerializeField, Tooltip("Bullet speed")]
-    private float _speed = 400.0f;
+    [FormerlySerializedAs("_speed")] [SerializeField, Tooltip("Bullet speed")]
+    private float speed = 400.0f;
 
     private readonly IReadOnlyCollection<string> _canDestroy = new[]
     {
@@ -28,7 +29,7 @@ public class Bullet : MonoBehaviour, IBullet
     // Update is called once per frame
     private void Update()
     {
-        if (_direction.sqrMagnitude > 0f) transform.position += _direction * (_speed * Time.deltaTime);
+        if (direction.sqrMagnitude > 0f) transform.position += direction * (speed * Time.deltaTime);
     }
 
     private void OnCollisionEnter(Collision other)
@@ -67,10 +68,10 @@ public class Bullet : MonoBehaviour, IBullet
         if (direction.sqrMagnitude <= Mathf.Epsilon)
             return;
 
-        _direction = direction.normalized;
+        this.direction = direction.normalized;
 
-        transform.rotation = Quaternion.LookRotation(_direction, Vector3.up);
+        transform.rotation = Quaternion.LookRotation(this.direction, Vector3.up);
 
-        transform.LookAt(transform.position + _direction);
+        transform.LookAt(transform.position + this.direction);
     }
 }

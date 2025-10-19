@@ -21,18 +21,18 @@ public class SimpleCharacterMotor : MonoBehaviour
     [Header("Smoothing")]
     public float movementAcceleration = 1;
 
-    CharacterController controller;
-    Vector3 movement, finalMovement;
-    float speed;
-    Quaternion targetRotation, targetPivotRotation;
+    CharacterController _controller;
+    Vector3 _movement, _finalMovement;
+    float _speed;
+    Quaternion _targetRotation, _targetPivotRotation;
 
 
     void Awake()
     {
-        controller = GetComponent<CharacterController>();
+        _controller = GetComponent<CharacterController>();
         Cursor.lockState = cursorLockMode;
         Cursor.visible = cursorVisible;
-        targetRotation = targetPivotRotation = Quaternion.identity;
+        _targetRotation = _targetPivotRotation = Quaternion.identity;
     }
 
     void Update()
@@ -47,30 +47,30 @@ public class SimpleCharacterMotor : MonoBehaviour
         var y = Input.GetAxis("Mouse X");
 
         x *= invertY ? -1 : 1;
-        targetRotation = transform.localRotation * Quaternion.AngleAxis(y * lookSpeed * Time.deltaTime, Vector3.up);
-        targetPivotRotation = cameraPivot.localRotation * Quaternion.AngleAxis(x * lookSpeed * Time.deltaTime, Vector3.right);
+        _targetRotation = transform.localRotation * Quaternion.AngleAxis(y * lookSpeed * Time.deltaTime, Vector3.up);
+        _targetPivotRotation = cameraPivot.localRotation * Quaternion.AngleAxis(x * lookSpeed * Time.deltaTime, Vector3.right);
 
-        transform.localRotation = targetRotation;
-        cameraPivot.localRotation = targetPivotRotation;
+        transform.localRotation = _targetRotation;
+        cameraPivot.localRotation = _targetPivotRotation;
     }
 
     void UpdateTranslation()
     {
-        if (controller.isGrounded)
+        if (_controller.isGrounded)
         {
             var x = Input.GetAxis("Horizontal");
             var z = Input.GetAxis("Vertical");
             var run = Input.GetKey(KeyCode.LeftShift);
 
             var translation = new Vector3(x, 0, z);
-            speed = run ? runSpeed : walkSpeed;
-            movement = transform.TransformDirection(translation * speed);
+            _speed = run ? runSpeed : walkSpeed;
+            _movement = transform.TransformDirection(translation * _speed);
         }
         else
         {
-            movement.y -= gravity * Time.deltaTime;
+            _movement.y -= gravity * Time.deltaTime;
         }
-        finalMovement = Vector3.Lerp(finalMovement, movement, Time.deltaTime * movementAcceleration);
-        controller.Move(finalMovement * Time.deltaTime);
+        _finalMovement = Vector3.Lerp(_finalMovement, _movement, Time.deltaTime * movementAcceleration);
+        _controller.Move(_finalMovement * Time.deltaTime);
     }
 }

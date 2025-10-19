@@ -61,7 +61,7 @@ public class TorchFireBlock : MonoBehaviour
 
     private void EnableSceneLights(bool status)
     {
-        Light[] lights = FindObjectsByType<Light>(FindObjectsSortMode.None);
+        var lights = FindObjectsByType<Light>(FindObjectsSortMode.None);
         
         foreach (var l in lights)
         {
@@ -82,7 +82,7 @@ public class TorchFireBlock : MonoBehaviour
         // enable or disable the lights based on 
         // the number of lit of blocks.
 
-        bool lightStatus = !(_sNumLitBlocks <= 0);
+        var lightStatus = !(_sNumLitBlocks <= 0);
         
         EnableSceneLights(lightStatus);
     }

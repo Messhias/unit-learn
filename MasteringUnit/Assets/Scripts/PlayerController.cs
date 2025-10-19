@@ -8,11 +8,11 @@ public class PlayerController : MonoBehaviour, IPlayerController
 {
     #region *** Editor components ***
     
-    [SerializeField] [Tooltip("The bullet projectile prefab to fire.")]
-    private GameObject _bulletToSpawn;
+    [FormerlySerializedAs("_bulletToSpawn")] [SerializeField] [Tooltip("The bullet projectile prefab to fire.")]
+    private GameObject bulletToSpawn;
 
-    [SerializeField] [Tooltip("The direction of that the Player is facing.")]
-    private Vector3 _currentFacing = new(1, 0, 0);
+    [FormerlySerializedAs("_currentFacing")] [SerializeField] [Tooltip("The direction of that the Player is facing.")]
+    private Vector3 currentFacing = new(1, 0, 0);
 
     // acceleration applied when directional input is received.
     [SerializeField] [Tooltip("How much acceleration is applied to this object when direction input is received.")]
@@ -31,20 +31,20 @@ public class PlayerController : MonoBehaviour, IPlayerController
     [FormerlySerializedAs("_extraGravity")] [SerializeField] [Tooltip("Additional gravitational pull")]
     private float extraGravity = 20;
     
-    [SerializeField, Tooltip("Are we on the ground?")]
-    private bool _isGrounded;
+    [FormerlySerializedAs("_isGrounded")] [SerializeField, Tooltip("Are we on the ground?")]
+    private bool isGrounded;
 
-    [SerializeField, Tooltip("The player's equipped weapon.")]
-    private WeaponBase _weaponEquipped;
+    [FormerlySerializedAs("_weaponEquipped")] [SerializeField, Tooltip("The player's equipped weapon.")]
+    private WeaponBase weaponEquipped;
     
     private IWeapon Weapon
     {
-        get => _weaponEquipped;
+        get => weaponEquipped;
         set 
         {
             if (value is WeaponBase weaponBase) 
             {
-                _weaponEquipped = weaponBase;
+                weaponEquipped = weaponBase;
             }
             else
             {
@@ -117,7 +117,7 @@ public class PlayerController : MonoBehaviour, IPlayerController
 
         _rigidbody.linearVelocity = currentSpeed;
         
-        transform.LookAt(transform.position + new Vector3(-_currentFacing.x, 0f,  -_currentFacing.z));
+        transform.LookAt(transform.position + new Vector3(-currentFacing.x, 0f,  -currentFacing.z));
 
         UpdateAnimation();
     }
@@ -182,7 +182,7 @@ public class PlayerController : MonoBehaviour, IPlayerController
         if (!Input.GetKeyDown(KeyCode.Return)) return;
 
 
-        var direction = new Vector3(_currentFacing.x, 0f, _currentFacing.z).normalized;
+        var direction = new Vector3(currentFacing.x, 0f, currentFacing.z).normalized;
         if (direction.sqrMagnitude <= Mathf.Epsilon) return;
 
         Weapon.OnAttack(direction);
@@ -223,9 +223,9 @@ public class PlayerController : MonoBehaviour, IPlayerController
         var position = _myCollider.bounds.center;
         position.y = _myCollider.bounds.min.y - offset;
 
-        _isGrounded = Physics.CheckSphere(position, offset);
+        isGrounded = Physics.CheckSphere(position, offset);
 
-        return _isGrounded;
+        return isGrounded;
     }
 
     private Vector3 PlayerMove(ref Vector3 currentSpeed)
@@ -243,32 +243,32 @@ public class PlayerController : MonoBehaviour, IPlayerController
         {
             _moveInput = true;
             currentSpeed.x += movementAcceleration * Time.deltaTime;
-            _currentFacing.x = 1;
-            _currentFacing.z = 0;
+            currentFacing.x = 1;
+            currentFacing.z = 0;
         }
 
         if (left)
         {
             _moveInput = true;
             currentSpeed.x -= movementAcceleration * Time.deltaTime;
-            _currentFacing.x = -1;
-            _currentFacing.z = 0;
+            currentFacing.x = -1;
+            currentFacing.z = 0;
         }
 
         if (up)
         {
             _moveInput = true;
             currentSpeed.z += movementAcceleration * Time.deltaTime;
-            _currentFacing.x = 0;
-            _currentFacing.z = 1;
+            currentFacing.x = 0;
+            currentFacing.z = 1;
         }
 
         if (!down) return currentSpeed;
         
         _moveInput = true;
         currentSpeed.z -= movementAcceleration * Time.deltaTime;
-        _currentFacing.x = 0;
-        _currentFacing.z = -1;
+        currentFacing.x = 0;
+        currentFacing.z = -1;
 
 
         return currentSpeed;

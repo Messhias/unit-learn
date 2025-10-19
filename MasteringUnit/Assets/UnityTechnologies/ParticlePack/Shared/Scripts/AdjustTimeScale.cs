@@ -5,11 +5,11 @@ using TMPro;
 
 public class AdjustTimeScale : MonoBehaviour
 {
-    TextMeshProUGUI textMesh;
+    TextMeshProUGUI _textMesh;
 
     private void Start()
     {
-        textMesh = GetComponent<TextMeshProUGUI>();
+        _textMesh = GetComponent<TextMeshProUGUI>();
     }
 
     void Update()
@@ -23,9 +23,9 @@ public class AdjustTimeScale : MonoBehaviour
                
             Time.fixedDeltaTime = 0.02F * Time.timeScale;
 
-            if (textMesh != null)
+            if (_textMesh != null)
             {
-                textMesh.text = "Time Scale : " + System.Math.Round(Time.timeScale, 2);
+                _textMesh.text = "Time Scale : " + System.Math.Round(Time.timeScale, 2);
             }
           
         }
@@ -38,9 +38,9 @@ public class AdjustTimeScale : MonoBehaviour
                 
             Time.fixedDeltaTime = 0.02F * Time.timeScale;
 
-            if (textMesh != null)
+            if (_textMesh != null)
             {
-                textMesh.text = "Time Scale : " + System.Math.Round(Time.timeScale, 2);
+                _textMesh.text = "Time Scale : " + System.Math.Round(Time.timeScale, 2);
             }
         }
     }

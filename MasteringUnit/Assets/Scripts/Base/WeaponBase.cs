@@ -17,8 +17,8 @@ namespace Base
         
         public AudioClip attackAudioClip;
 
-        [SerializeField, Tooltip("Animation to play when attacking")]
-        private string _attackAnimation = "SwingSowrd_01";
+        [FormerlySerializedAs("_attackAnimation")] [SerializeField, Tooltip("Animation to play when attacking")]
+        private string attackAnimation = "SwingSowrd_01";
 
         [SerializeField, Tooltip("Identify the weapon type it is")]
         protected WeaponType weaponType;
@@ -27,8 +27,8 @@ namespace Base
         
         public string AttackAnimation
         {
-            get => _attackAnimation;
-            set => _attackAnimation = value;
+            get => attackAnimation;
+            set => attackAnimation = value;
         }
 
         #region *** Protected Properties ***

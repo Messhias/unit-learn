@@ -3,16 +3,16 @@
     using UnityEngine;
     using UnityEditor;
 
-    [CustomEditor(typeof(IL3DN_Wind))]
-    public class IL3DN_Wind_Editor : Editor
+    [CustomEditor(typeof(IL3DnWind))]
+    public class IL3DnWindEditor : Editor
     {
 
-        Texture2D IL3DN_WindDirectionLabel;
+        Texture2D _il3DnWindDirectionLabel;
 
         void OnEnable()
         {
 
-            IL3DN_WindDirectionLabel = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/IL3DN/EditorImages/IL3DN_Label_Wind_Direction.png");
+            _il3DnWindDirectionLabel = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/IL3DN/EditorImages/IL3DN_Label_Wind_Direction.png");
 
         }
 
@@ -20,7 +20,7 @@
         {
             GUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();
-            GUILayout.Label(IL3DN_WindDirectionLabel);
+            GUILayout.Label(_il3DnWindDirectionLabel);
             GUILayout.FlexibleSpace();
             GUILayout.EndHorizontal();
 

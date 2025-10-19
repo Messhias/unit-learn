@@ -1,23 +1,24 @@
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class WorldSpacePrompt : MonoBehaviour
 {
     [SerializeField, Tooltip("The text to display.")]
     private string promptText;
 
-    [SerializeField, Tooltip("The prompt parent to toggle.")]
-    public TextMeshProUGUI TextMeshProUGUI;
+    [FormerlySerializedAs("TextMeshProUGUI")] [SerializeField, Tooltip("The prompt parent to toggle.")]
+    public TextMeshProUGUI textMeshProUGUI;
     
-    [SerializeField, Tooltip("The prompt parent to toggle.")]
-    public GameObject promptBG;
+    [FormerlySerializedAs("promptBG")] [SerializeField, Tooltip("The prompt parent to toggle.")]
+    public GameObject promptBg;
 
     private void Awake()
     {
-        TextMeshProUGUI.SetText(promptText);
-        promptBG.SetActive(false);
-        TextMeshProUGUI.enabled = false;
+        textMeshProUGUI.SetText(promptText);
+        promptBg.SetActive(false);
+        textMeshProUGUI.enabled = false;
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -37,8 +38,8 @@ public class WorldSpacePrompt : MonoBehaviour
         var controller = other.gameObject.GetComponent<PlayerController>();
         if (!controller) return;
         
-        promptBG.SetActive(true);
-        TextMeshProUGUI.enabled = true;
+        promptBg.SetActive(true);
+        textMeshProUGUI.enabled = true;
     }
 
     private void OnCollisionExit(Collision other)
@@ -46,8 +47,8 @@ public class WorldSpacePrompt : MonoBehaviour
         var controller = other.gameObject.GetComponent<PlayerController>();
         if (controller)
         {
-            promptBG.SetActive(false);
-            TextMeshProUGUI.enabled = false;
+            promptBg.SetActive(false);
+            textMeshProUGUI.enabled = false;
         }
     }
 }
